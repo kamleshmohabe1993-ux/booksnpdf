@@ -71,31 +71,6 @@ set `PUBLIC_API_URL=http://localhost:5000/api`.
 - Filling in the remaining language dictionaries
   (`src/i18n/dictionaries/{mr,gu,ta,te,bn}.json`) once translations are ready
 
-## Deploying to Cloudflare
-
-This app is configured to deploy as an SSR site on Cloudflare (Pages/Workers)
-via `@astrojs/cloudflare` — see `astro.config.mjs` and `wrangler.toml` in
-this folder.
-
-```bash
-npm install          # picks up @astrojs/cloudflare (lockfile was regenerated)
-npm run build         # outputs to ./dist
-npx wrangler deploy   # or `npx wrangler pages deploy dist` for Pages
-```
-
-Before deploying:
-- Edit `wrangler.toml` and replace `your-backend-domain.com` with your real
-  backend URL, and fill in `PUBLIC_GOOGLE_CLIENT_ID`. You can also set these
-  as environment variables/secrets in the Cloudflare dashboard instead of
-  committing them to `wrangler.toml`.
-- **The `backend/` Express app is NOT deployed to Cloudflare.** It uses
-  Mongoose (MongoDB), `sharp` (native binary), and `multer` disk-based file
-  uploads — none of which run in the Workers runtime. Keep hosting it on a
-  regular Node host (Railway, Render, Fly.io, a VPS, etc.) and point
-  `PUBLIC_API_URL` / `API_URL` at that host.
-- `passthroughImageService()` is already used for images (see comment in
-  `astro.config.mjs`), so no image-service changes are needed for Cloudflare.
-
 ## Notes on the design
 
 The visual identity ("admit card / hall ticket" — paper cream, deep-indigo

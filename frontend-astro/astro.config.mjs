@@ -2,22 +2,16 @@ import { defineConfig, passthroughImageService } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import cloudflare from '@astrojs/cloudflare';
+import node from '@astrojs/node';
 
 // Books PDF — Astro rebuild
 // SSR output so book/course detail pages and filtered listings can pull
 // live data from the existing Express API on every request (fresh SEO
 // content, no stale static builds every time a book is added).
-//
-// Deployed on Cloudflare Pages/Workers via @astrojs/cloudflare — see
-// wrangler.toml in this directory. (Previously used @astrojs/node for
-// local/VPS hosting; swapped when moving to Cloudflare.)
 export default defineConfig({
   site: 'https://bookspdf.com',
   output: 'server',
-  adapter: cloudflare({
-    imageService: 'passthrough',
-  }),
+  adapter: node({ mode: 'standalone' }),
   image: {
     // Astro's default image service shells out to Sharp, which needs a
     // native binary that isn't available on Cloudflare Pages/Workers (or
