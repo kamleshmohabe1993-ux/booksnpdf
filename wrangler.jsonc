@@ -3,7 +3,7 @@
   // ⚠️ Use a name unique to this frontend project — do NOT reuse the name
   // of your existing backend Worker/Pages project, or deploying this will
   // overwrite that project's configuration (env vars, bindings, routes).
-  "name": "bookspdf-astro-frontend",
+  "name": "bookspdf-astro",
   "compatibility_date": "2026-07-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./dist/_worker.js/index.js",
