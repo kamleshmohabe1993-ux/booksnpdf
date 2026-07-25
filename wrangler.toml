@@ -20,8 +20,8 @@ PUBLIC_GOOGLE_CLIENT_ID = "your-google-oauth-client-id.apps.googleusercontent.co
 
 # --- Optional: per-environment overrides ---
 # [env.staging.vars]
-# PUBLIC_API_URL = "https://staging-api.booksnpdf.com/api"
-# API_URL = "https://staging-api.booksnpdf.com/api"
+# PUBLIC_API_URL = "https://staging-api.bookspdf.com/api"
+# API_URL = "https://staging-api.bookspdf.com/api"
 
 # If you later add KV, D1, or R2 bindings, they go here, e.g.:
 # [[kv_namespaces]]
