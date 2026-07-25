@@ -3,7 +3,7 @@
 
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { getDb, ensureAdminUser } from './db.js';
+import { getDb, ensureAdminUser, closeRequestDb } from './db.js';
 import { verifyPhonePeConfig } from './utils/phonepe.js';
 
 import authRoutes from './routes/auth.js';
@@ -13,6 +13,20 @@ import paymentRoutes from './routes/payments.js';
 import ratingRoutes from './routes/ratings.js';
 
 const app = new Hono();
+
+// ── DB connection lifecycle ──────────────────────────────────────────────
+// Registered first so it wraps every other middleware/route: whatever
+// MongoClient this request opened (via getDb(c), see db.js) gets closed
+// here once the request is done, so its sockets never outlive the request
+// context that created them. Do NOT remove this — see the comment in
+// db.js for why caching the client across requests hangs the Worker.
+app.use('*', async (c, next) => {
+  try {
+    await next();
+  } finally {
+    await closeRequestDb(c);
+  }
+});
 
 // ── CORS ─────────────────────────────────────────────────────────────────
 // Mirrors `app.use(cors({ origin: FRONTEND_URL, credentials: true }))`.
@@ -39,7 +53,7 @@ app.route('/api/ratings', ratingRoutes);
 app.get('/api/health', async (c) => {
   let dbOk = true;
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     await ensureAdminUser(db, c.env);
   } catch (err) {
     console.error('Health check DB error:', err.message);

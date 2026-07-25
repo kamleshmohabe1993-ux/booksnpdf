@@ -22,7 +22,7 @@ ratings.post('/', protect, async (c) => {
       return c.json({ success: false, error: 'Rating must be between 1 and 5' }, 400);
     }
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const bookObjId = new ObjectId(bookId);
     const book = await db.collection('books').findOne({ _id: bookObjId });
     if (!book) return c.json({ success: false, error: 'Book not found' }, 404);
@@ -63,7 +63,7 @@ ratings.get('/:bookId', async (c) => {
     const pageNum = parseInt(page, 10) || 1;
     const limitNum = parseInt(limit, 10) || 10;
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const list = await db
       .collection('ratings')
       .aggregate([
@@ -97,7 +97,7 @@ ratings.get('/user/:bookId', protect, async (c) => {
   try {
     const user = c.get('user');
     const bookId = new ObjectId(c.req.param('bookId'));
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const rating = await db.collection('ratings').findOne({ user: user._id, book: bookId });
     return c.json({ success: true, data: rating });
   } catch (error) {
@@ -108,7 +108,7 @@ ratings.get('/user/:bookId', protect, async (c) => {
 ratings.delete('/:ratingId', protect, async (c) => {
   try {
     const user = c.get('user');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const ratingId = new ObjectId(c.req.param('ratingId'));
     const rating = await db.collection('ratings').findOne({ _id: ratingId });
     if (!rating) return c.json({ success: false, error: 'Rating not found' }, 404);

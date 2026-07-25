@@ -9,18 +9,19 @@ directory = "./dist"
 binding = "ASSETS"
 
 [vars]
-# Backend API base URL (Express server — deployed separately, NOT on
-# Cloudflare; see backend/README notes). Override this per-environment
-# below, or set it in the Cloudflare dashboard under
+# Backend API base URL — this is the backend-workers/ Worker, deployed
+# separately on Cloudflare (its own `wrangler deploy`, its own subdomain or
+# custom domain). Set these to that Worker's URL once it's deployed, or
+# override them in the Cloudflare dashboard under
 # Workers & Pages > Settings > Variables.
-PUBLIC_API_URL = "https://your-backend-domain.com/api"
-API_URL = "https://your-backend-domain.com/api"
+PUBLIC_API_URL = "https://your-backend-workers-subdomain.workers.dev/api"
+API_URL = "https://your-backend-workers-subdomain.workers.dev/api"
 PUBLIC_GOOGLE_CLIENT_ID = "your-google-oauth-client-id.apps.googleusercontent.com"
 
 # --- Optional: per-environment overrides ---
 # [env.staging.vars]
-# PUBLIC_API_URL = "https://staging-api.bookspdf.com/api"
-# API_URL = "https://staging-api.bookspdf.com/api"
+# PUBLIC_API_URL = "https://staging-api.booksnpdf.com/api"
+# API_URL = "https://staging-api.booksnpdf.com/api"
 
 # If you later add KV, D1, or R2 bindings, they go here, e.g.:
 # [[kv_namespaces]]

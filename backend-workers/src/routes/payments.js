@@ -40,7 +40,7 @@ payments.post('/initiate', protect, async (c) => {
   try {
     const user = c.get('user');
     const { bookId, upiId } = await c.req.json();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const book = await db.collection('books').findOne({ _id: new ObjectId(bookId) });
     if (!book) return c.json({ success: false, message: 'Book not found' }, 404);
@@ -154,7 +154,7 @@ payments.post('/initiate-course', protect, async (c) => {
   try {
     const user = c.get('user');
     const { courseId, upiId } = await c.req.json();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const course = await db.collection('courses').findOne({ _id: new ObjectId(courseId) });
     if (!course) return c.json({ success: false, message: 'Course not found' }, 404);
@@ -274,7 +274,7 @@ payments.get('/history', protect, async (c) => {
     const query = { userId: user._id };
     if (status) query.status = status.toUpperCase();
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const list = await db
       .collection('payments')
       .aggregate([
@@ -304,7 +304,7 @@ payments.post('/refund/:merchantOrderId', protect, adminOnly, async (c) => {
   try {
     const merchantOrderId = c.req.param('merchantOrderId');
     const { reason } = await c.req.json().catch(() => ({}));
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const payment = await db.collection('payments').findOne({ merchantOrderId });
     if (!payment) return c.json({ success: false, message: 'Payment not found' }, 404);
@@ -356,7 +356,7 @@ payments.post('/refund/:merchantOrderId', protect, adminOnly, async (c) => {
 payments.get('/download/:token', async (c) => {
   try {
     const token = c.req.param('token');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const purchase = await db.collection('payments').findOne({ downloadToken: token });
     if (!purchase) return c.json({ success: false, error: 'Invalid download token' }, 404);
 
@@ -480,7 +480,7 @@ payments.post('/webhook', async (c) => {
     if (!event || !payload) return c.json({ success: false, message: 'Invalid payload' }, 400);
 
     console.log('📦 Webhook event:', event, '| Order:', payload.merchantOrderId);
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     switch (event) {
       case 'checkout.order.completed':
@@ -511,7 +511,7 @@ payments.get('/redirect-callback', async (c) => {
     const { merchantOrderId } = c.req.query();
     if (!merchantOrderId) return c.redirect(`${frontend}/payment/error?reason=missing_order`, 302);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const payment = await db.collection('payments').findOne({ merchantOrderId });
     if (!payment) return c.redirect(`${frontend}/payment/error?reason=not_found`, 302);
 
@@ -555,7 +555,7 @@ payments.get('/redirect-callback', async (c) => {
 payments.get('/status/:merchantOrderId', protect, async (c) => {
   try {
     const merchantOrderId = c.req.param('merchantOrderId');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     let payment = await db.collection('payments').findOne({ merchantOrderId });
     if (!payment) return c.json({ success: false, message: 'Payment not found' }, 404);
@@ -615,7 +615,7 @@ payments.post('/downloadfree/:bookId', protect, async (c) => {
   try {
     const user = c.get('user');
     const bookId = new ObjectId(c.req.param('bookId'));
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const book = await db.collection('books').findOne({ _id: bookId });
     if (!book) return c.json({ success: false, error: 'Book not found' }, 404);
@@ -657,7 +657,7 @@ payments.post('/downloadfree-course/:courseId', protect, async (c) => {
   try {
     const user = c.get('user');
     const courseId = new ObjectId(c.req.param('courseId'));
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const course = await db.collection('courses').findOne({ _id: courseId });
     if (!course) return c.json({ success: false, error: 'Course not found' }, 404);
@@ -700,7 +700,7 @@ payments.post('/:paymentId/request-refund', protect, async (c) => {
   try {
     const user = c.get('user');
     const { reason } = await c.req.json().catch(() => ({}));
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const payment = await db.collection('payments').findOne({ _id: new ObjectId(c.req.param('paymentId')) });
 
     if (!payment) return c.json({ success: false, error: 'Purchase not found' }, 404);
@@ -724,7 +724,7 @@ payments.post('/:paymentId/request-refund', protect, async (c) => {
 payments.get('/my-purchases', protect, async (c) => {
   try {
     const user = c.get('user');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const list = await db
       .collection('payments')
       .aggregate([
@@ -747,7 +747,7 @@ payments.get('/my-purchases', protect, async (c) => {
 payments.get('/transactions', protect, adminOnly, async (c) => {
   try {
     const { status, search } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const query = {};
     if (status && status !== 'all') query.status = status;
@@ -793,7 +793,7 @@ payments.get('/transactions', protect, adminOnly, async (c) => {
 
 payments.get('/transactions/:id', protect, adminOnly, async (c) => {
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const list = await db
       .collection('payments')
       .aggregate([
@@ -816,7 +816,7 @@ payments.get('/transactions/:id', protect, adminOnly, async (c) => {
 payments.get('/stats', protect, adminOnly, async (c) => {
   try {
     const { startDate, endDate } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const dateFilter = {};
     if (startDate || endDate) {
@@ -873,7 +873,7 @@ payments.put('/transactions/:id/status', protect, adminOnly, async (c) => {
     const validStatuses = ['INITIATED', 'PENDING', 'SUCCESS', 'FAILED', 'REFUNDED'];
     if (!validStatuses.includes(status)) return c.json({ success: false, error: 'Invalid status value' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const id = new ObjectId(c.req.param('id'));
     const transaction = await db.collection('payments').findOne({ _id: id });
     if (!transaction) return c.json({ success: false, error: 'Transaction not found' }, 404);
@@ -895,7 +895,7 @@ payments.put('/transactions/:id/status', protect, adminOnly, async (c) => {
 payments.get('/export', protect, adminOnly, async (c) => {
   try {
     const { status, startDate, endDate } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
 
     const query = {};
     if (status && status !== 'all') query.status = status;
@@ -937,7 +937,7 @@ payments.get('/export', protect, adminOnly, async (c) => {
 payments.delete('/transactions/:id', protect, adminOnly, async (c) => {
   try {
     const user = c.get('user');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const id = new ObjectId(c.req.param('id'));
 
     const transaction = await db
@@ -1009,7 +1009,7 @@ payments.post('/transactions/bulk-delete', protect, adminOnly, async (c) => {
       return c.json({ success: false, error: 'Invalid transaction IDs array' }, 400);
     }
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const ids = transactionIds.map((id) => new ObjectId(id));
     const transactions = await db.collection('payments').find({ _id: { $in: ids } }).toArray();
     if (transactions.length === 0) return c.json({ success: false, error: 'No transactions found' }, 404);
@@ -1046,7 +1046,7 @@ payments.delete('/cleanup', protect, adminOnly, async (c) => {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const result = await db.collection('payments').deleteMany({ status: 'FAILED', purchasedAt: { $lt: cutoffDate } });
 
     return c.json({

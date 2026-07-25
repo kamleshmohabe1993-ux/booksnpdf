@@ -42,7 +42,7 @@ auth.post('/register', async (c) => {
       return c.json({ success: false, error: 'Password must be at least 6 characters' }, 400);
     }
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const users = db.collection('users');
 
     const exists = await users.findOne({ email: email.toLowerCase() });
@@ -107,7 +107,7 @@ auth.post('/login', async (c) => {
       return c.json({ success: false, error: 'Please provide email and password' }, 400);
     }
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const user = await db.collection('users').findOne({ email: email.toLowerCase() });
     if (!user || !user.password) {
       return c.json({ success: false, error: 'Invalid credentials' }, 401);
@@ -156,7 +156,7 @@ auth.post('/google', async (c) => {
     const { sub: googleId, email, name, picture, email_verified: emailVerified } = payload;
     if (!email) return c.json({ success: false, error: 'Google account has no email address' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const users = db.collection('users');
 
     let user = await users.findOne({ googleId });
@@ -219,7 +219,7 @@ auth.post('/forgot-password', async (c) => {
     const { email } = await c.req.json();
     if (!email) return c.json({ success: false, error: 'Email is required' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const user = await db.collection('users').findOne({ email: email.toLowerCase() });
 
     if (!user) {
@@ -260,7 +260,7 @@ auth.post('/verify-reset-otp', async (c) => {
     const { email, otp } = await c.req.json();
     if (!email || !otp) return c.json({ success: false, error: 'Email and OTP are required' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const result = await otpService.verifyOTP(db, email, otp, 'password_reset');
     if (!result.success) return c.json(result, 400);
 
@@ -277,7 +277,7 @@ auth.post('/reset-password', async (c) => {
     if (!email || !otp || !newPassword) return c.json({ success: false, error: 'All fields are required' }, 400);
     if (newPassword.length < 6) return c.json({ success: false, error: 'Password must be at least 6 characters' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const result = await otpService.verifyOTP(db, email, otp, 'password_reset');
     if (!result.success) return c.json(result, 400);
 
@@ -297,7 +297,7 @@ auth.post('/resend-otp', async (c) => {
     const { email } = await c.req.json();
     if (!email) return c.json({ success: false, error: 'Email is required' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const user = await db.collection('users').findOne({ email: email.toLowerCase() });
     if (!user) return c.json({ success: false, error: 'User not found' }, 404);
 
@@ -329,7 +329,7 @@ auth.post('/send-email-otp', async (c) => {
     const { email } = await c.req.json();
     if (!email) return c.json({ success: false, error: 'Email is required' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const user = await db.collection('users').findOne({ email: email.toLowerCase() });
     if (!user) return c.json({ success: false, error: 'No account found with this email address' }, 404);
     if (user.isVerified) return c.json({ success: true, alreadyVerified: true, message: 'This email is already verified.' });
@@ -367,7 +367,7 @@ auth.post('/verify-email-otp', async (c) => {
     const { email, otp } = await c.req.json();
     if (!email || !otp) return c.json({ success: false, error: 'Email and OTP are required' }, 400);
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const result = await otpService.verifyOTP(db, email, otp, 'email_verification');
     if (!result.success) return c.json(result, 400);
 
@@ -396,7 +396,7 @@ auth.put('/profile', protect, async (c) => {
     if (mobileNumber) update.mobileNumber = mobileNumber;
     if (interests) update.interests = interests;
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     await db.collection('users').updateOne({ _id: user._id }, { $set: update });
 
     return c.json({
@@ -420,7 +420,7 @@ auth.delete('/account', protect, async (c) => {
   try {
     const { password, userId } = await c.req.json();
     const currentUser = c.get('user');
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const profile = await db.collection('users').findOne({ _id: new ObjectId(userId) });
     if (!profile) return c.json({ success: false, error: 'Profile not found' }, 404);
 
@@ -444,7 +444,7 @@ auth.put('/change-password', protect, async (c) => {
     const user = c.get('user');
     const { currentPassword, newPassword } = await c.req.json();
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const full = await db.collection('users').findOne({ _id: user._id });
     if (!full) return c.json({ success: false, error: 'User not found' }, 404);
 
@@ -464,7 +464,7 @@ auth.put('/change-password', protect, async (c) => {
 auth.get('/users', protect, adminOnly, async (c) => {
   try {
     const { status, verified, search, sortBy = 'recent', page = 1, limit = 50 } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const users = db.collection('users');
     const purchases = db.collection('purchases');
 
@@ -546,7 +546,7 @@ auth.get('/users', protect, adminOnly, async (c) => {
 auth.get('/userstats', protect, adminOnly, async (c) => {
   try {
     const { startDate, endDate } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const users = db.collection('users');
     const purchases = db.collection('purchases');
 
@@ -615,7 +615,7 @@ auth.get('/userstats', protect, adminOnly, async (c) => {
 auth.get('/exportusers', protect, adminOnly, async (c) => {
   try {
     const { status, verified, startDate, endDate } = c.req.query();
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const users = db.collection('users');
     const purchases = db.collection('purchases');
 
@@ -677,7 +677,7 @@ auth.get('/exportusers', protect, adminOnly, async (c) => {
 
 auth.get('/:id', protect, adminOnly, async (c) => {
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const userId = c.req.param('id');
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) }, { projection: { password: 0 } });
     if (!user) return c.json({ success: false, error: 'User not found' }, 404);
@@ -715,7 +715,7 @@ auth.get('/:id', protect, adminOnly, async (c) => {
 
 auth.put('/:id/toggle-status', protect, adminOnly, async (c) => {
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const currentUser = c.get('user');
     const userId = c.req.param('id');
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
@@ -740,7 +740,7 @@ auth.put('/:id/toggle-status', protect, adminOnly, async (c) => {
 
 auth.put('/:id/verify', protect, adminOnly, async (c) => {
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const userId = c.req.param('id');
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
     if (!user) return c.json({ success: false, error: 'User not found' }, 404);
@@ -761,7 +761,7 @@ auth.put('/:id/verify', protect, adminOnly, async (c) => {
 
 auth.delete('/:id', protect, adminOnly, async (c) => {
   try {
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const currentUser = c.get('user');
     const userId = c.req.param('id');
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
@@ -803,7 +803,7 @@ auth.post('/bulk-action', protect, adminOnly, async (c) => {
 
     const filteredUserIds = userIds.filter((id) => id !== currentUser._id.toString()).map((id) => new ObjectId(id));
 
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     const result = await db.collection('users').updateMany({ _id: { $in: filteredUserIds } }, { $set: updateOperation });
 
     return c.json({

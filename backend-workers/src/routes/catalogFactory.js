@@ -47,7 +47,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
   router.get('/', async (c) => {
     try {
       const { search, category, isPaid, featured, sort, limit } = c.req.query();
-      const db = await getDb(c.env);
+      const db = await getDb(c);
 
       const query = { isActive: true };
       if (search) {
@@ -77,7 +77,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
 
   router.get('/categories', async (c) => {
     try {
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const categories = await db.collection(collectionName).distinct('category');
       return c.json({ success: true, data: categories });
     } catch (error) {
@@ -88,7 +88,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
   router.get('/admin/all', protect, adminOnly, async (c) => {
     try {
       const { search, category } = c.req.query();
-      const db = await getDb(c.env);
+      const db = await getDb(c);
 
       const query = {};
       if (search) {
@@ -115,7 +115,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
   router.get('/:id/thumbnail', async (c) => {
     try {
       const id = c.req.param('id');
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const filter = isObjectId(id) ? { $or: [{ slug: id }, { _id: new ObjectId(id) }] } : { slug: id };
       const item = await db.collection(collectionName).findOne(filter, { projection: { thumbnail: 1 } });
 
@@ -133,7 +133,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
   router.get('/:id', async (c) => {
     try {
       const id = c.req.param('id');
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const filter = isObjectId(id) ? { $or: [{ slug: id }, { _id: new ObjectId(id) }] } : { slug: id };
       const item = await db.collection(collectionName).findOne(filter, { projection: { pdfDownloadLink: 0 } });
 
@@ -158,7 +158,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
 
       const thumbnail = await base64ToThumbnail(thumbnailBase64);
       const pdfDownloadLink = getAssetDownloadLink(pdfDriveLink);
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const collection = db.collection(collectionName);
       const slug = await generateUniqueSlug(collection, title);
       const now = new Date();
@@ -196,7 +196,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
 
   router.put('/:id', protect, adminOnly, async (c) => {
     try {
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const collection = db.collection(collectionName);
       const id = new ObjectId(c.req.param('id'));
       const existing = await collection.findOne({ _id: id });
@@ -234,7 +234,7 @@ export function createCatalogRouter(collectionName, notFoundLabel) {
 
   router.delete('/:id', protect, adminOnly, async (c) => {
     try {
-      const db = await getDb(c.env);
+      const db = await getDb(c);
       const collection = db.collection(collectionName);
       const id = new ObjectId(c.req.param('id'));
       const existing = await collection.findOne({ _id: id });

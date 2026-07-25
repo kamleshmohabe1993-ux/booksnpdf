@@ -12,7 +12,7 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 NODE_ENV = "production"
 JWT_EXPIRE = "7h"
-FRONTEND_URL = "http://localhost:4321"
+FRONTEND_URL = "https://booksnpdf.com"
 EMAIL_USER = "contact@booksnpdf.com"
 PHONEPE_CLIENT_VERSION = "1"
 ADMIN_EMAIL= "admin@bookmarket.com"

@@ -20,7 +20,7 @@ export async function protect(c, next) {
 
   try {
     const decoded = await verifyToken(token, c.env);
-    const db = await getDb(c.env);
+    const db = await getDb(c);
     let userId;
     try {
       userId = new ObjectId(decoded.id);
