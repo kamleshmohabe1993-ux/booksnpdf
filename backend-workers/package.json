@@ -1,0 +1,23 @@
+{
+  "name": "bookspdf-workers-api",
+  "version": "1.0.0",
+  "description": "BooksPDF backend — Cloudflare Workers + MongoDB Atlas compatible rewrite of the original Express/Mongoose API",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "secrets:list": "wrangler secret list"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "hono": "^4.6.14",
+    "jose": "^5.9.6",
+    "mongodb": "^6.11.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.114.0"
+  }
+}

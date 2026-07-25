@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.API_URL || import.meta.env.PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.API_URL || import.meta.env.PUBLIC_API_URL || 'http://localhost:8787/api';
 
 // A stable, absolute URL that serves the raw thumbnail image bytes (not the
 // base64 data URI the JSON API returns). Needed anywhere a real fetchable

@@ -1,38 +1,25 @@
-# Books PDF — complete project (Astro frontend + Express backend)
+# BooksPDF — Cloudflare Workers migration
 
-```
-bookspdf-complete/
-├── frontend-astro/   ← new Astro site (Phase 1 + 2, see frontend-astro/README.md)
-└── backend/          ← your original Express/MongoDB backend, with the
-                         additive Course model/routes/controller merged in
-                         (nothing existing was removed or renamed)
-```
+- **`backend-workers/`** — the new backend: rewritten to run on Cloudflare
+  Workers and connect to MongoDB Atlas directly. **Start here.** See
+  `backend-workers/README.md` for what changed and how to deploy.
+- **`frontend-astro/`** — the original Astro frontend, unchanged except for
+  a comment added to `.env.example` pointing `PUBLIC_API_URL`/`API_URL` at
+  your deployed Worker. No code changes were needed — it already talked to
+  the API purely over `fetch` with a configurable base URL.
+- **`backend-original-express/`** — your original Express/Mongoose backend,
+  kept as-is for reference/diffing. Not needed for deployment once you've
+  switched to `backend-workers/`.
 
-## Run it
+## Quick start
 
-**Backend** (unchanged setup — same as before):
-```bash
-cd backend
-npm install
-# your existing .env (Mongo URI, JWT secret, PhonePe keys, Resend key, etc.)
-npm start        # http://localhost:5000
-```
+1. `cd backend-workers && npm install`
+2. Create a MongoDB Atlas cluster (or reuse your existing one) and set
+   Network Access to `0.0.0.0/0` (see `backend-workers/README.md` for why).
+3. Set secrets and deploy — full steps in `backend-workers/README.md`.
+4. `cd ../frontend-astro`, set `PUBLIC_API_URL`/`API_URL` in `.env` to your
+   deployed Worker's URL, then deploy the frontend as you normally would.
 
-**Frontend:**
-```bash
-cd frontend-astro
-npm install
-cp .env.example .env   # PUBLIC_API_URL=http://localhost:5000/api
-npm run dev             # http://localhost:4321
-```
-
-See `frontend-astro/README.md` for what's built (public SEO pages, dark/light
-+ language toggle, auth, dashboard, my library) and what's left (admin panel
-+ course upload UI, payment checkout wiring) — that's the next phase whenever
-you're ready to continue.
-
-Your existing Next.js app in this same repo (`books-pdf/`) is untouched and
-still works if you want to run both side by side while you migrate.
-
-**For full setup instructions (env vars, running both servers, adding your
-first book/course, production build, troubleshooting), see [`SETUP.md`](./SETUP.md).**
+Read `backend-workers/README.md` in full before deploying — in particular
+the **Thumbnails** section (server-side image resizing via `sharp` isn't
+possible in Workers, and needs a small client-side or WASM-based swap).

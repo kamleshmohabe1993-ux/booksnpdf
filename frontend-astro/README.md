@@ -54,6 +54,12 @@ back to sample book/course data for browsing pages (clearly marked in
 comments, safe to delete once your API is live). Auth pages do **not** have
 a fallback — they need the real backend.
 
+> This section describes the original `backend-original-express/` setup.
+> If you've moved to `backend-workers/` (recommended — see the top-level
+> `README.md`), run it with `npm run dev` (`wrangler dev`, defaults to
+> `http://localhost:8787`) and set `PUBLIC_API_URL=http://localhost:8787/api`
+> instead of the `:5000` below.
+
 To run against your backend, copy the `backend/` folder changes over (or
 apply the diffs in `models/Book.js`, `models/Course.js` (new),
 `controllers/bookController.js`, `controllers/courseController.js` (new),

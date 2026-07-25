@@ -2,16 +2,24 @@ import { defineConfig, passthroughImageService } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 
 // Books PDF — Astro rebuild
 // SSR output so book/course detail pages and filtered listings can pull
-// live data from the existing Express API on every request (fresh SEO
-// content, no stale static builds every time a book is added).
+// live data from the backend API on every request (fresh SEO content, no
+// stale static builds every time a book is added).
+//
+// Adapter: @astrojs/cloudflare (not @astrojs/node) so this builds to a
+// Cloudflare Pages Function / Worker and can be deployed alongside the
+// backend-workers/ API on Cloudflare. `@astrojs/node`'s `standalone` mode
+// starts a long-lived Node HTTP server listening on a port — that model
+// doesn't exist on Cloudflare's edge runtime, so it can't be deployed there
+// as-is. If you deploy this frontend somewhere else (Render, Railway, a
+// VPS, etc.) instead, swap back to @astrojs/node.
 export default defineConfig({
   site: 'https://bookspdf.com',
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: cloudflare({ imageService: 'passthrough' }),
   image: {
     // Astro's default image service shells out to Sharp, which needs a
     // native binary that isn't available on Cloudflare Pages/Workers (or
