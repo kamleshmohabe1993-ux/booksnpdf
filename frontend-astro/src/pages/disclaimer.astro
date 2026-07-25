@@ -1,0 +1,68 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+
+const lastUpdated = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+
+<StaticPage
+  title="Disclaimer — BooksPDF"
+  description="Important information about the limits of the content and services provided on BooksPDF."
+  eyebrow="Legal"
+  heading="Disclaimer"
+  subheading={`Last updated: ${lastUpdated}`}
+>
+  <div class="space-y-8 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <p>
+      Please read this disclaimer carefully before using the Books PDF website. Books PDF is a digital
+      marketplace for pdf books, NCERT books pdf, foundation books pdf, Hindi books pdf and free pdf
+      books, along with a small catalog of self-paced courses. By accessing or using the site in any way —
+      browsing titles, creating an account, downloading a free book, or purchasing a paid one — you agree
+      to be bound by the terms described on this page, alongside our
+      <a href="/terms-and-conditions" class="text-[var(--accent)] underline">Terms &amp; Conditions</a> and
+      <a href="/policy" class="text-[var(--accent)] underline">Privacy Policy</a>.
+    </p>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">1. General information</h2>
+      <p class="mt-2">The information and eBooks provided on Books PDF are for general informational and educational purposes only. While we aim to keep listings, descriptions and category tags accurate and up to date, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the site, or of the information, products, categories, or materials contained on it. Any reliance you place on such information is strictly at your own risk. Titles, prices, categories and availability may change without prior notice as our catalog is updated.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">2. No professional advice</h2>
+      <p class="mt-2">Content on Books PDF — including books, courses, sample chapters, and any articles published on this site — is not a substitute for professional academic, legal, financial, medical, or career advice. Educational titles such as NCERT and foundation books are study aids, not a replacement for guidance from a qualified teacher, tutor, or institution. You should always consult a qualified professional or your school/college's official curriculum before making decisions based on anything found on this site.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">3. Third-party content & links</h2>
+      <p class="mt-2">Our site may contain links to third-party websites, payment processors, or reference third-party content within book descriptions or reviews. We do not control, endorse, or take responsibility for the content, accuracy, privacy practices, or availability of any third-party site. Visiting linked sites, or interacting with third-party services from within Books PDF, is at your own risk and subject to that third party's own terms.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">4. Intellectual property</h2>
+      <p class="mt-2">All eBooks and course material distributed through Books PDF are provided for personal, non-commercial use only. Copyright in each title remains with its respective author or publisher unless otherwise stated on the listing. Redistribution, resale, public sharing, or bulk reproduction of purchased or free files — including uploading them to other file-sharing sites — is strictly prohibited and may expose you to copyright liability independent of Books PDF.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">5. Accuracy of user-generated content</h2>
+      <p class="mt-2">Ratings, reviews, and star counts shown alongside books and courses are submitted by readers and reflect their personal opinions, not an endorsement or verification by Books PDF. We may moderate or remove reviews that are abusive, spam, or clearly unrelated to the title, but we do not independently fact-check the content of individual reviews.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">6. Limitation of liability</h2>
+      <p class="mt-2">In no event will Books PDF, its owner, or its staff be liable for any loss or damage — including, without limitation, indirect, incidental, or consequential loss or damage, or any loss or damage arising from loss of data or profits — arising out of, or in connection with, the use of, or inability to use, this website or the material on it, even where we have been advised of the possibility of such loss.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">7. Changes to this disclaimer</h2>
+      <p class="mt-2">We may update this disclaimer from time to time to reflect changes in our catalog, our services, or applicable law. The "last updated" date at the top of this page always reflects the most recent revision. Continued use of the site after changes are posted constitutes acceptance of the revised disclaimer.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">8. Contact us</h2>
+      <p class="mt-2">If anything on this page is unclear, or you believe content on Books PDF infringes a right you hold, please reach out and we'll respond as quickly as we can.</p>
+      <div class="mt-2 rounded-ticket border border-[var(--border)] bg-[var(--bg-soft)] p-5">
+        <p>Email: <a href="mailto:contact@booksnpdf.com" class="text-[var(--accent)] underline">contact@booksnpdf.com</a></p>
+      </div>
+    </section>
+  </div>
+</StaticPage>

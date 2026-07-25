@@ -1,0 +1,86 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+import { Mail, MapPin, Clock } from 'lucide-react';
+---
+
+<StaticPage
+  title="Contact BooksPDF"
+  description="Get in touch with the BooksPDF team for order, payment or download support."
+  eyebrow="Get in touch"
+  heading="Get in touch"
+  subheading="We're here to help! Reach out anytime and we'll get back to you within 24 hours."
+>
+  <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.2fr]">
+    <div class="space-y-5">
+      <div class="flex items-start gap-3 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4">
+        <Mail size={20} className="mt-0.5 text-[var(--accent)]" />
+        <div>
+          <p class="text-sm font-medium text-[var(--ink)]">Email us</p>
+          <p class="text-sm text-[var(--ink-soft)]">contact@booksnpdf.com</p>
+          <p class="mt-1 text-xs text-[var(--ink-faint)]">We'll respond within 24 hours</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4">
+        <MapPin size={20} className="mt-0.5 text-[var(--accent)]" />
+        <div>
+          <p class="text-sm font-medium text-[var(--ink)]">Office address</p>
+          <p class="text-sm text-[var(--ink-soft)]">123 Book Street, Andheri East<br/>Mumbai, Maharashtra 400069, India</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4">
+        <Clock size={20} className="mt-0.5 text-[var(--accent)]" />
+        <div>
+          <p class="text-sm font-medium text-[var(--ink)]">Business hours</p>
+          <p class="text-sm text-[var(--ink-soft)]">Mon–Sat: 9:00 AM – 6:00 PM · Sunday: Closed</p>
+        </div>
+      </div>
+
+      <div class="rounded-ticket border border-[var(--border)] bg-[var(--bg-soft)] p-4">
+        <p class="text-sm font-medium text-[var(--ink)]">Join the community</p>
+        <div class="mt-2 flex flex-wrap gap-2">
+          <a href="https://whatsapp.com/channel/0029VaqFyxOHQbS3hsyxji0Q" class="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--ink-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]">WhatsApp Channel</a>
+          <a href="https://t.me/booksnpdf" class="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--ink-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]">Telegram Channel</a>
+        </div>
+      </div>
+    </div>
+
+    <form method="post" action="/api/contact" class="space-y-4 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <label class="flex flex-col gap-1 text-xs text-[var(--ink-faint)]">
+          Your name
+          <input name="name" required class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]" />
+        </label>
+        <label class="flex flex-col gap-1 text-xs text-[var(--ink-faint)]">
+          Email address
+          <input type="email" name="email" required class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]" />
+        </label>
+      </div>
+      <label class="flex flex-col gap-1 text-xs text-[var(--ink-faint)]">
+        Subject
+        <select name="subject" required class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]">
+          <option value="">Select a subject</option>
+          <option value="general">General Inquiry</option>
+          <option value="payment">Payment Issue</option>
+          <option value="download">Download Problem</option>
+          <option value="refund">Refund Request</option>
+          <option value="technical">Technical Support</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1 text-xs text-[var(--ink-faint)]">
+        Message
+        <textarea name="message" rows="5" required placeholder="Tell us how we can help you..." class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]"></textarea>
+      </label>
+      <button type="submit" class="rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+        Send message
+      </button>
+      <p class="text-xs text-[var(--ink-faint)]">We typically respond within 24 hours during business days. Wire this form to your existing contact/support endpoint once merged.</p>
+    </form>
+  </div>
+
+  <div class="mt-12 flex flex-wrap justify-center gap-3">
+    <a href="/faqs" class="rounded-full bg-[var(--bg-soft)] px-5 py-2.5 text-sm font-medium text-[var(--ink-soft)] hover:text-[var(--accent)]">📚 View FAQs</a>
+    <a href="/how-it-works" class="rounded-full bg-[var(--bg-soft)] px-5 py-2.5 text-sm font-medium text-[var(--ink-soft)] hover:text-[var(--accent)]">⚙️ How It Works</a>
+    <a href="/delivery-info" class="rounded-full bg-[var(--bg-soft)] px-5 py-2.5 text-sm font-medium text-[var(--ink-soft)] hover:text-[var(--accent)]">📦 Delivery Info</a>
+  </div>
+</StaticPage>

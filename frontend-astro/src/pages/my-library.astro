@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MyLibraryApp from '../components/dashboard/MyLibraryApp.jsx';
+import { getDictionary, resolveLang, t } from '../i18n';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+---
+
+<BaseLayout title="My Library — Books PDF" description="Everything you've purchased on Books PDF, ready to download again." noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <h1 class="font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'library.title')}</h1>
+    <p class="mt-1 mb-8 text-sm text-[var(--ink-soft)]">{t(dict, 'library.subtitle')}</p>
+    <MyLibraryApp client:load dict={dict.library} dashboardDict={dict.dashboard} />
+  </main>
+  <Footer />
+</BaseLayout>

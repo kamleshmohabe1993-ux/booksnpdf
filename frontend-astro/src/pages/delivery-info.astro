@@ -1,0 +1,124 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+import { CheckCircle, Mail, Download, FileText, Laptop, Smartphone } from 'lucide-react';
+
+const steps = [
+  ['Complete payment', 'Securely complete your purchase using any supported method.', '30 seconds'],
+  ['Receive email', 'Get an instant confirmation email with download details.', 'Immediate'],
+  ['Download books', 'Access your purchased eBooks from email or your dashboard.', 'Instant access'],
+  ['Start reading', 'Open your PDF on any device and enjoy reading.', 'Anytime'],
+];
+
+const faqs = [
+  { q: 'How quickly will I receive my eBook?', a: "Immediately — after payment confirmation you'll get an email with download links within seconds, and can also access your books instantly from your account dashboard." },
+  { q: "What if I don't receive the download email?", a: "First check your spam/junk folder. If it's still not there, log into your dashboard where all your purchases are available, or contact support for immediate help." },
+  { q: 'Can I download my eBook multiple times?', a: 'Yes — you can re-download your purchased eBooks from your dashboard; your purchases don\'t expire.' },
+  { q: 'What format are the eBooks delivered in?', a: 'All eBooks are delivered as PDF, compatible with virtually all devices.' },
+  { q: 'What if the download link expires?', a: 'Download links in emails may expire after 7 days for security, but your books remain accessible in your dashboard.' },
+];
+---
+
+<StaticPage
+  title="Delivery Info — BooksPDF"
+  description="How and when you receive your pdf books and courses after purchase on BooksPDF."
+  eyebrow="Delivery"
+  heading="Instant digital delivery"
+  subheading="No waiting, no shipping fees — your eBooks are delivered to your email and account within seconds of purchase."
+>
+  <section class="mx-auto max-w-3xl space-y-4 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <p>
+      Because every title on Books PDF is a digital file, "delivery" here doesn't mean a courier at your
+      door — it means a download link that's ready before you've even finished reading your payment
+      confirmation. There's no postage, no customs delay for readers outside India, and no risk of a
+      damaged package. Whether you've bought a single NCERT books pdf for tomorrow's class or a whole
+      shelf of foundation books pdf for the semester, delivery on Books PDF works the same simple way
+      every time.
+    </p>
+    <p>
+      This page explains exactly what happens after you pay, how long each step takes, which devices you
+      can read on, and what to do if an email doesn't show up. If you still have a question after reading
+      it, our <a href="/contact" class="text-[var(--accent)] underline">contact page</a> connects you to
+      real support, not a bot.
+    </p>
+  </section>
+
+  <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {[[CheckCircle,'Instant access','Download immediately after payment'],[Mail,'Secure delivery','Protected payment & download links'],[Download,'Re-downloadable','Access again anytime from your dashboard']].map(([Icon, title, body]) => (
+      <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-5 text-center">
+        <Icon size={26} className="mx-auto text-[var(--accent)]" />
+        <h3 class="mt-2 font-display text-base font-semibold text-[var(--ink)]">{title}</h3>
+        <p class="mt-1 text-sm text-[var(--ink-soft)]">{body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-12">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Free titles vs paid titles</h2>
+    <p class="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
+      Free pdf books on Books PDF skip the payment step entirely — click download and the file starts
+      right away, no account required, though signing in lets you keep a record of everything you've
+      grabbed. Paid books and courses follow the same instant-delivery promise once payment clears: our
+      PhonePe-powered checkout confirms the transaction in seconds, and the platform unlocks your download
+      the moment that confirmation arrives, whether it's an NCERT books pdf, a Hindi books pdf novel, or a
+      full foundation course.
+    </p>
+    <p class="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
+      Readers outside India can use the same checkout flow; since nothing physical ships, there's no
+      international shipping fee, no import duty, and no customs paperwork to worry about — your book
+      arrives exactly the same way no matter which country you're reading from.
+    </p>
+  </div>
+
+  <div class="mt-12">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">How digital delivery works</h2>
+    <div class="mt-5 space-y-3">
+      {steps.map(([title, body, time], i) => (
+        <div class="flex items-start gap-4 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/10 font-ticket text-sm text-[var(--accent-dark)]">{i + 1}</span>
+          <div class="flex-1">
+            <p class="font-medium text-[var(--ink)]">{title}</p>
+            <p class="text-sm text-[var(--ink-soft)]">{body}</p>
+          </div>
+          <span class="font-ticket text-xs uppercase tracking-wide text-stamp-green">{time}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-ticket bg-[var(--ink)] p-8 text-[var(--bg)]">
+    <h2 class="font-display text-lg font-semibold text-center">Read on any device</h2>
+    <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {[[Laptop,'Desktop','Windows, Mac, Linux'],[Smartphone,'Mobile','iOS & Android'],[FileText,'Tablets','iPad, Android tablets'],[Download,'E-readers','Kindle, Nook, Kobo']].map(([Icon,title,body]) => (
+        <div class="rounded-ticket bg-white/10 p-4 text-center">
+          <Icon size={22} className="mx-auto" />
+          <p class="mt-2 text-sm font-semibold">{title}</p>
+          <p class="mt-0.5 text-xs opacity-80">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-12">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Frequently asked questions</h2>
+    <div class="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-ticket border border-[var(--border)] bg-[var(--card)]">
+      {faqs.map((f) => (
+        <details class="group p-4">
+          <summary class="cursor-pointer list-none font-medium text-[var(--ink)] marker:content-none">
+            <span class="flex items-center justify-between gap-3">{f.q}<span class="shrink-0 text-[var(--ink-faint)] transition-transform group-open:rotate-45">+</span></span>
+          </summary>
+          <p class="mt-2 text-sm text-[var(--ink-soft)]">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-ticket border border-stamp-red/30 bg-stamp-red/5 p-5 text-sm text-stamp-red">
+    <p class="font-semibold">Important notes</p>
+    <ul class="mt-2 list-disc space-y-1 pl-5">
+      <li>Check your spam/junk folder if you don't receive the email within 5 minutes</li>
+      <li>Ensure your email address is correct at checkout</li>
+      <li>Download links in emails expire after 7 days, but books remain in your dashboard</li>
+      <li>Contact support immediately if you have any download issues</li>
+    </ul>
+  </div>
+</StaticPage>

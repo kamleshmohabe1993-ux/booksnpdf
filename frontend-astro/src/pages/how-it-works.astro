@@ -1,0 +1,113 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+import { Search, ShoppingCart, CreditCard, Download, BookOpen, Clock, Shield, RefreshCw, Smartphone, FileText, Star, CheckCircle } from 'lucide-react';
+
+const mainSteps = [
+  { Icon: Search, title: 'Browse & discover', subtitle: 'Find your perfect book', body: 'Search Books PDF by title or author, browse by category, filter by price and rating, and read detailed descriptions before deciding. Our catalog spans NCERT books pdf, foundation books pdf, Hindi books pdf and thousands of free pdf books, so whether you are preparing for an exam or just want a weekend read, the right title is a few clicks away.' },
+  { Icon: ShoppingCart, title: 'Select & choose', subtitle: 'Build your library', body: 'Pick the books or courses you want — free titles download immediately, premium titles head to secure checkout. You can add several books in one session and keep browsing while your order is prepared behind the scenes.' },
+  { Icon: CreditCard, title: 'Secure payment', subtitle: 'Safe & easy checkout', body: 'Pay via UPI, cards, net banking or wallet through our PhonePe-powered gateway. Review your order, confirm, and get an instant confirmation email — no card details are ever stored on Books PDF servers.' },
+  { Icon: Download, title: 'Instant download', subtitle: 'Get your books immediately', body: 'Receive your download link right away — access it from your account dashboard on any device, no waiting period, no postal delays, and no printing costs to worry about.' },
+  { Icon: BookOpen, title: 'Read & enjoy', subtitle: 'Start your reading journey', body: 'Open your PDF on any device, read offline, highlight and annotate with your favourite PDF reader, and revisit your entire library anytime from the dashboard, even after a device change.' },
+];
+
+const features = [
+  { Icon: Clock, title: 'Instant access', body: 'Download your books immediately after purchase — no shipping wait, no courier tracking, just an instant link in your dashboard.' },
+  { Icon: Shield, title: 'Secure payments', body: 'Protected transactions with industry-standard encryption on every checkout, whether you pay by UPI, card or net banking.' },
+  { Icon: RefreshCw, title: 'Multiple downloads', body: 'Re-download your purchases from your account as many times as you need, on as many devices as you own.' },
+  { Icon: Smartphone, title: 'Any device', body: 'Read on computers, tablets and phones — the PDF format looks the same everywhere, so your place is never lost.' },
+  { Icon: FileText, title: 'PDF format', body: 'A universal format compatible with every operating system, e-reader and PDF viewer, with no proprietary app required.' },
+  { Icon: Star, title: 'Quality content', body: 'A curated collection of high-quality eBooks, NCERT titles, foundation courses and Hindi-language books, vetted before publishing.' },
+];
+
+const benefits = [
+  'Personal library of all purchased books',
+  'Order history and receipts',
+  'Multiple re-downloads',
+  'Exclusive member updates',
+  'Early access to new releases',
+];
+
+const faqs = [
+  { q: 'Do I need an account to download free books?', a: 'You can browse without an account, but creating a free Books PDF account lets you keep every download organized in one dashboard and re-download it later.' },
+  { q: 'What file format will I receive?', a: 'Every title on Books PDF is delivered as a standard PDF file, readable on virtually any device without special software.' },
+  { q: 'Can I read on my phone?', a: 'Yes — PDFs downloaded from Books PDF open on any Android, iOS, Windows, macOS or Linux device using the built-in PDF viewer or any free reader app.' },
+  { q: 'What if my download link stops working?', a: 'Sign in and revisit your dashboard — every purchase remains available for re-download at no extra cost, for as long as your account exists.' },
+];
+---
+
+<StaticPage
+  title="How It Works — BooksPDF"
+  description="How buying and downloading pdf books and courses works on BooksPDF, from search to download."
+  eyebrow="How it works"
+  heading="From search to download in five steps"
+>
+  <section class="mx-auto max-w-3xl space-y-4 text-center text-sm leading-relaxed text-[var(--ink-soft)]">
+    <p>
+      Books PDF was built to make buying and downloading digital books as simple as possible. Whether you're
+      after a free pdf book, an NCERT textbook, a foundation course, or a Hindi-language novel, the entire
+      journey — from the moment you search to the moment you start reading — takes only a few minutes.
+      No printing, no couriers, no waiting for a package to arrive at your door.
+    </p>
+    <p>
+      Below is exactly what happens at each stage, along with the platform features that make Books PDF a
+      dependable place to build your digital library, one title at a time.
+    </p>
+  </section>
+
+  <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {mainSteps.map(({ Icon, title, subtitle, body }, i) => (
+      <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-5">
+        <span class="font-ticket text-xs text-[var(--ink-faint)]">Step {i + 1}</span>
+        <Icon size={24} className="mt-2 text-[var(--accent)]" />
+        <h3 class="mt-2 font-display text-base font-semibold text-[var(--ink)]">{title}</h3>
+        <p class="text-xs text-[var(--accent-dark)]">{subtitle}</p>
+        <p class="mt-1.5 text-sm text-[var(--ink-soft)]">{body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-14">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)] text-center">Why choose BooksPDF?</h2>
+    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map(({ Icon, title, body }) => (
+        <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-5">
+          <Icon size={22} className="text-[var(--accent)]" />
+          <h3 class="mt-2 font-display text-base font-semibold text-[var(--ink)]">{title}</h3>
+          <p class="mt-1 text-sm text-[var(--ink-soft)]">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
+    <div>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Create your free account</h2>
+      <p class="mt-2 text-sm text-[var(--ink-soft)]">Sign up for free and unlock benefits that enhance your reading experience.</p>
+      <a href="/register" class="mt-4 inline-flex rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+        Get started free
+      </a>
+    </div>
+    <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+      <h3 class="font-display text-base font-semibold text-[var(--ink)]">Member benefits</h3>
+      <ul class="mt-3 space-y-2">
+        {benefits.map((b) => (
+          <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]">
+            <CheckCircle size={16} className="mt-0.5 shrink-0 text-stamp-green" /> {b}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-14">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)] text-center">Common questions</h2>
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {faqs.map(({ q, a }) => (
+        <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-5">
+          <h3 class="font-display text-sm font-semibold text-[var(--ink)]">{q}</h3>
+          <p class="mt-1.5 text-sm text-[var(--ink-soft)]">{a}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</StaticPage>

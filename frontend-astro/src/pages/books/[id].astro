@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BookCard from '../../components/BookCard.astro';
+import ShareButton from '../../components/ShareButton.jsx';
+import PurchaseButton from '../../components/purchase/PurchaseButton.jsx';
+import ReviewsSection from '../../components/reviews/ReviewsSection.jsx';
+import { getDictionary, resolveLang, t } from '../../i18n';
+import { getBookBySlug, getBooks, getThumbnailUrl } from '../../lib/api.js';
+import { Star, Download } from 'lucide-react';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+
+const { id } = Astro.params;
+const book = await getBookBySlug(id);
+
+if (!book) {
+  return Astro.redirect('/404');
+}
+
+const { books: related } = await getBooks({ category: book.category, sort: 'popular' });
+const relatedBooks = related.filter((b) => b._id !== book._id).slice(0, 4);
+const shareUrl = new URL(`/books/${book.slug || book._id}`, Astro.url.origin).toString();
+const thumbnailUrl = getThumbnailUrl(book, 'book');
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: book.title,
+  author: { '@type': 'Person', name: book.author },
+  bookFormat: 'https://schema.org/EBook',
+  offers: {
+    '@type': 'Offer',
+    price: book.price || 0,
+    priceCurrency: 'INR',
+    availability: 'https://schema.org/InStock',
+  },
+  aggregateRating: book.rating ? {
+    '@type': 'AggregateRating',
+    ratingValue: book.rating,
+    reviewCount: book.ratingCount || 0,
+  } : undefined,
+}];
+---
+
+<BaseLayout
+  title={`${book.title} — Download PDF | Books PDF`}
+  description={(book.description || `Download ${book.title} pdf book.`).slice(0, 155)}
+  ogImage={thumbnailUrl || undefined}
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <nav class="text-xs text-[var(--ink-faint)]">
+      <a href="/" class="hover:text-[var(--accent)]">{t(dict, 'nav.home')}</a> /
+      <a href="/books" class="hover:text-[var(--accent)]"> {t(dict, 'nav.books')}</a> /
+      <span> {book.title}</span>
+    </nav>
+
+    <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+      <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+        <div class="flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-lg bg-[var(--bg-soft)] font-display text-4xl text-[var(--ink-faint)]">
+          {book.thumbnail?.data ? (
+            <img src={book.thumbnail.data} alt={book.title} class="h-full w-full object-cover" />
+          ) : (
+            book.title.charAt(0)
+          )}
+        </div>
+        <p class="mt-4 font-ticket text-xs uppercase tracking-wide text-[var(--ink-faint)]">{book.category}</p>
+      </div>
+
+      <div>
+        <h1 class="font-display text-3xl font-semibold text-[var(--ink)]">{book.title}</h1>
+        <p class="mt-1 text-sm text-[var(--ink-soft)]">{t(dict, 'book.by', { author: book.author || 'Books PDF' })}</p>
+
+        <div class="mt-3 flex items-center gap-4 text-sm text-[var(--ink-faint)]">
+          <span class="flex items-center gap-1"><Star size={14} className="fill-marigold text-marigold" /> {t(dict, 'book.rating', { rating: book.rating ?? '—', count: book.ratingCount ?? 0 })}</span>
+          <span class="flex items-center gap-1"><Download size={14} /> {t(dict, 'book.downloads', { count: book.downloads ?? 0 })}</span>
+        </div>
+
+        <p class="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--ink-soft)]">{book.description}</p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <span class="font-display text-2xl font-semibold text-[var(--ink)]">
+            {!book.price ? t(dict, 'book.free') : `₹${book.price}`}
+          </span>
+          <PurchaseButton
+            client:load
+            itemId={book._id}
+            itemType="book"
+            isPaid={!!book.price}
+            price={book.price}
+            labels={{ download: t(dict, 'book.download'), buyNow: t(dict, 'book.buyNow'), loginToDownload: t(dict, 'book.loginToDownload') }}
+          />
+          <ShareButton
+            client:visible
+            size="lg"
+            title={book.title}
+            text={`Check out "${book.title}" on Books PDF`}
+            url={shareUrl}
+            imageUrl={thumbnailUrl}
+          />
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-16">
+      <ReviewsSection client:load bookId={book._id} />
+    </section>
+
+    {relatedBooks.length > 0 && (
+      <section class="mt-16">
+        <h2 class="font-display text-xl font-semibold text-[var(--ink)]">{t(dict, 'book.relatedTitle')}</h2>
+        <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedBooks.map((b) => <BookCard item={b} kind="book" freeLabel={t(dict, 'book.free')} byLabel={t(dict, 'book.by')} />)}
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>

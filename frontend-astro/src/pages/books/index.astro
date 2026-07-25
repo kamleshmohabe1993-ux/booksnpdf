@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BookCard from '../../components/BookCard.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import { getDictionary, resolveLang, t } from '../../i18n';
+import { getBooks, getCategories } from '../../lib/api.js';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+
+const category = Astro.url.searchParams.get('category') || '';
+const price = Astro.url.searchParams.get('price') || '';
+const sort = Astro.url.searchParams.get('sort') || 'newest';
+const search = Astro.url.searchParams.get('search') || '';
+
+const [{ books, total }, categories] = await Promise.all([
+  getBooks({ category, price, sort, search }),
+  getCategories(),
+]);
+
+const title = search
+  ? `"${search}" — Books PDF`
+  : category
+  ? `${category} Books PDF | NCERT, Foundation & Hindi Books`
+  : 'Books PDF — All Books, NCERT, Foundation & Hindi Books PDF';
+const description = 'Browse pdf books, ncert books pdf, foundation books pdf, hindi books pdf and free pdf books. Filter by category, price and popularity.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <h1 class="font-display text-3xl font-semibold text-[var(--ink)]">
+      {search ? t(dict, 'filters.browsing') + `: “${search}”` : category || t(dict, 'nav.books')}
+    </h1>
+
+    <div class="mt-6">
+      <FilterBar
+        basePath="/books"
+        otherPath="/courses"
+        categories={categories}
+        current={{ category, price, sort, search }}
+        dict={dict}
+        t={t}
+        resultsCount={total}
+      />
+    </div>
+
+    {books.length === 0 ? (
+      <div class="mt-16 text-center">
+        <p class="font-display text-xl text-[var(--ink)]">{t(dict, 'filters.noResults')}</p>
+        <p class="mt-2 text-sm text-[var(--ink-soft)]">{t(dict, 'filters.noResultsBody')}</p>
+      </div>
+    ) : (
+      <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {books.map((book) => <BookCard item={book} kind="book" freeLabel={t(dict, 'book.free')} byLabel={t(dict, 'book.by')} />)}
+      </div>
+    )}
+
+    <p class="mt-16 max-w-3xl text-xs leading-relaxed text-[var(--ink-faint)]">
+      {t(dict, 'footer.keywordLine')}
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>

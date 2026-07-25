@@ -1,0 +1,110 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+
+const lastUpdated = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+
+<StaticPage
+  title="Refund & Cancellation Policy — BooksPDF"
+  description="When and how refunds are provided for purchases on BooksPDF."
+  eyebrow="Legal"
+  heading="Refund & Cancellation Policy"
+  subheading={`Last updated: ${lastUpdated}`}
+>
+  <div class="space-y-8 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <p>
+      At Books PDF, we want you to be completely satisfied with every pdf book, NCERT title, foundation
+      course, or Hindi-language book you buy. This policy outlines, in plain language, the conditions
+      under which refunds and cancellations are provided for purchases made on Books PDF, how long each
+      step takes, and how to reach us if something goes wrong. It should be read alongside our
+      <a href="/terms-and-conditions" class="text-[var(--accent)] underline">Terms &amp; Conditions</a>,
+      which govern your use of the site more broadly.
+    </p>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">1. Digital products refund policy</h2>
+      <p class="mt-2">Because every title we sell is a digital file rather than a physical product, we can't accept a "return" the way a bookstore might take back a printed copy — once a PDF has been downloaded, it has already been delivered in full. For that reason, sales are generally final once an eBook or course file has been downloaded. That said, digital delivery isn't perfect, and mistakes on either side do happen — a duplicate charge, a corrupted upload, a listing that doesn't match the file. We review every refund request individually and fairly rather than applying a blanket "no refunds" rule, because we'd rather fix a genuine problem than lose your trust.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">2. Eligible refund cases</h2>
+      <p class="mt-2">You may request a refund within 7 days if:</p>
+      <div class="mt-3 space-y-2">
+        <div class="rounded-r-lg border-l-4 border-stamp-green bg-stamp-green/5 p-3"><p class="font-medium text-[var(--ink)]">✓ Corrupted or damaged file</p><p class="text-xs">The PDF is corrupted and cannot be opened or read properly</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-green bg-stamp-green/5 p-3"><p class="font-medium text-[var(--ink)]">✓ Duplicate charges</p><p class="text-xs">You were charged multiple times for the same book</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-green bg-stamp-green/5 p-3"><p class="font-medium text-[var(--ink)]">✓ Significant mismatch</p><p class="text-xs">The book content significantly differs from its description</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-green bg-stamp-green/5 p-3"><p class="font-medium text-[var(--ink)]">✓ Not downloaded</p><p class="text-xs">You haven't downloaded the book within 48 hours of purchase</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">3. Non-refundable cases</h2>
+      <p class="mt-2">Refunds will NOT be provided if:</p>
+      <div class="mt-3 space-y-2">
+        <div class="rounded-r-lg border-l-4 border-stamp-red bg-stamp-red/5 p-3"><p class="font-medium text-[var(--ink)]">✗ Already downloaded</p><p class="text-xs">You have already downloaded and accessed the book</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-red bg-stamp-red/5 p-3"><p class="font-medium text-[var(--ink)]">✗ Change of mind</p><p class="text-xs">You simply changed your mind after purchase</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-red bg-stamp-red/5 p-3"><p class="font-medium text-[var(--ink)]">✗ Incompatibility</p><p class="text-xs">Your device cannot open PDF files (a device-side issue)</p></div>
+        <div class="rounded-r-lg border-l-4 border-stamp-red bg-stamp-red/5 p-3"><p class="font-medium text-[var(--ink)]">✗ Beyond 7 days</p><p class="text-xs">More than 7 days have passed since purchase</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">4. How to request a refund</h2>
+      <ol class="mt-3 space-y-3">
+        <li class="flex gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] font-ticket text-xs font-bold text-white">1</span><span><strong class="text-[var(--ink)]">Contact support</strong> — email contact@booksnpdf.com with subject "Refund Request"</span></li>
+        <li class="flex gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] font-ticket text-xs font-bold text-white">2</span><span><strong class="text-[var(--ink)]">Provide details</strong> — transaction ID, book title, purchase date, and reason for refund</span></li>
+        <li class="flex gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] font-ticket text-xs font-bold text-white">3</span><span><strong class="text-[var(--ink)]">Review process</strong> — we review requests within 2–3 business days</span></li>
+        <li class="flex gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] font-ticket text-xs font-bold text-white">4</span><span><strong class="text-[var(--ink)]">Refund processing</strong> — if approved, processed within 7–14 business days</span></li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">5. Refund timeline</h2>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
+        <li>Request review: 2–3 business days</li>
+        <li>Approval notification: within 24 hours of review</li>
+        <li>Refund processing: 7–14 business days</li>
+        <li>Bank credit: approved refunds are credited to the original payment method within 7–15 business days</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">6. Refund method</h2>
+      <p class="mt-2">Refunds are processed to your original payment method — the same card, UPI ID, bank account, or PhonePe wallet used for the purchase.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">7. Cancellation policy</h2>
+      <p class="mt-2">You can cancel an order any time before the download link has actually been used. If you haven't downloaded your file yet, contact support immediately and we'll cancel and refund the order in full within 48 hours of purchase — no questions asked. Once the file has been downloaded, the standard refund eligibility rules in Section 2 apply instead, since the product has, by that point, already been delivered to you.</p>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
+        <li>Before download: full refund within 48 hours</li>
+        <li>After download: subject to the refund eligibility criteria above</li>
+        <li>To cancel, contact support immediately</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">8. Refunds for courses</h2>
+      <p class="mt-2">Self-paced courses purchased on Books PDF follow the same eligibility rules as eBooks — a course counts as "downloaded" once you access its first lesson or material file. If a course listing turns out to be materially different from what's described (missing modules, wrong subject, broken files), that's treated the same as a "significant mismatch" case under Section 2 and reviewed for a refund.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">9. Partial refunds</h2>
+      <p class="mt-2">In some cases we may offer partial refunds — for minor content discrepancies, temporary technical issues resolved within 24 hours, or as a goodwill gesture. Partial refunds are decided case by case and communicated clearly before any amount is processed, so you always know exactly what you're getting back and why.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">10. Contact information</h2>
+      <div class="mt-2 rounded-ticket border border-[var(--border)] bg-[var(--bg-soft)] p-5">
+        <p>Email: <a href="mailto:contact@booksnpdf.com" class="text-[var(--accent)] underline">contact@booksnpdf.com</a></p>
+        <p class="text-xs mt-1">Support hours: Monday – Saturday, 9:00 AM – 6:00 PM IST</p>
+      </div>
+    </section>
+
+    <div class="rounded-ticket bg-gradient-to-r from-stamp-green to-[var(--accent)] p-6 text-white">
+      <p class="font-semibold">Our commitment</p>
+      <p class="mt-1 text-sm opacity-90">We're committed to customer satisfaction — if you run into any issue with your purchase, we'll work with you to find a fair solution.</p>
+      <a href="/contact" class="mt-3 inline-flex rounded-full bg-white px-5 py-2 text-sm font-bold text-[var(--accent-dark)]">Contact support</a>
+    </div>
+  </div>
+</StaticPage>

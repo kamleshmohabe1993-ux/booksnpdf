@@ -1,0 +1,141 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+
+const values = [
+  { title: 'Quality content', body: 'We curate every title to ensure readers get premium quality content every time.' },
+  { title: 'Instant access', body: 'No printing, no shipping delays — start reading the moment payment clears.' },
+  { title: 'Secure platform', body: 'Your data and transactions are protected with industry-leading security measures.' },
+  { title: 'Customer first', body: "Your satisfaction is our priority. We're here to help every step of the way." },
+];
+
+const stats = [
+  ['10,000+', 'Books available'],
+  ['50,000+', 'Happy readers'],
+  ['100+', 'Categories'],
+  ['24/7', 'Support available'],
+];
+
+const milestones = [
+  ['2020', 'Founded', 'BooksPDF was established with a vision to make digital books accessible to everyone.'],
+  ['2021', 'Rapid growth', 'Expanded the collection to 5,000+ books and served 10,000+ readers.'],
+  ['2022', 'Platform enhancement', 'Improved the reading experience with faster, instant delivery.'],
+  ['2023', 'Market leader', 'Became one of the leading digital book platforms with 50,000+ active users.'],
+  ['2024', 'Innovation', 'Introduced smarter recommendations and expanded to 10,000+ titles.'],
+];
+---
+
+<StaticPage
+  title="About BooksPDF — pdf books, ncert books pdf, foundation books pdf"
+  description="BooksPDF is your trusted partner in digital reading — pdf books, ncert books pdf, hindi books pdf and free pdf books, all in one place."
+  eyebrow="About us"
+  heading="About BooksPDF"
+  subheading="Your trusted partner in digital reading. Making quality books accessible to everyone, everywhere."
+>
+  <section class="space-y-4 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Our story</h2>
+    <p>
+      BooksPDF was founded with a simple yet powerful vision: to make quality literature accessible to
+      everyone, anywhere in the world. We believe that knowledge and great stories should not be limited by
+      geography, cost, or availability.
+    </p>
+    <p>
+      What started as a small collection of digital books has grown into a comprehensive platform serving
+      thousands of readers daily. We bring together an ever-expanding library of titles across all genres
+      and subjects — including NCERT, foundation and Hindi-language books.
+    </p>
+    <p>
+      Today, BooksPDF stands as a testament to our commitment to democratizing access to books. Whether
+      you're a student, professional, or casual reader, we're here to fuel your passion for reading with
+      instant access to quality content at your fingertips.
+    </p>
+  </section>
+
+  <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+      <h3 class="font-display text-lg font-semibold text-[var(--ink)]">Our mission</h3>
+      <p class="mt-1.5 text-sm text-[var(--ink-soft)]">
+        To provide instant access to a vast collection of high-quality digital books, making reading
+        affordable, convenient, and enjoyable for everyone.
+      </p>
+    </div>
+    <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+      <h3 class="font-display text-lg font-semibold text-[var(--ink)]">Our vision</h3>
+      <p class="mt-1.5 text-sm text-[var(--ink-soft)]">
+        To become the world's most trusted digital books platform, where every reader has access to
+        knowledge and literature that inspires, educates, and entertains.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Our core values</h2>
+    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {values.map((v) => (
+        <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-5">
+          <h3 class="font-display text-base font-semibold text-[var(--ink)]">{v.title}</h3>
+          <p class="mt-1.5 text-sm text-[var(--ink-soft)]">{v.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">What makes Books PDF different</h2>
+    <p class="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
+      There's no shortage of places to search for a pdf book online, but many of them bury readers in
+      broken links, pirated scans, or pop-up ads. Books PDF was built to be the opposite: a clean,
+      organized marketplace where every listing is real, every file downloads properly, and every purchase
+      is backed by a working account and support team. We keep the catalog focused on categories that
+      actually matter to Indian readers and students — NCERT books pdf for school curricula, foundation
+      books pdf for competitive exam prep, Hindi books pdf for regional-language readers, and a steadily
+      growing shelf of free pdf books for anyone who just wants to read without spending a rupee.
+    </p>
+    <p class="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
+      We also believe pricing should be transparent. What you see on a book's page is what you pay — no
+      hidden delivery charges, no subscription traps, and no surprise renewal fees. Once you've bought a
+      title, it stays in your library for good, ready to re-download whenever you switch devices or clear
+      your downloads folder.
+    </p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-2 gap-6 rounded-ticket border border-[var(--border)] bg-[var(--bg-soft)] p-6 sm:grid-cols-4">
+    {stats.map(([n, l]) => (
+      <div class="text-center">
+        <p class="font-ticket text-2xl font-bold text-[var(--accent)]">{n}</p>
+        <p class="mt-1 text-xs text-[var(--ink-faint)]">{l}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-12">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Our journey</h2>
+    <div class="mt-5 space-y-3">
+      {milestones.map(([year, title, body]) => (
+        <div class="flex items-start gap-4 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4">
+          <span class="shrink-0 rounded-full bg-[var(--accent)] px-3 py-1 font-ticket text-xs font-bold text-white">{year}</span>
+          <div>
+            <p class="font-medium text-[var(--ink)]">{title}</p>
+            <p class="text-sm text-[var(--ink-soft)]">{body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-12 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8">
+    <h2 class="font-display text-xl font-semibold text-[var(--ink)]">Platform management</h2>
+    <p class="mt-1 text-sm text-[var(--ink-soft)]">Meet the person behind BooksPDF's operations.</p>
+    <div class="mt-5">
+      <p class="font-display text-lg font-semibold text-[var(--ink)]">Kamlesh Mohabe</p>
+      <p class="text-sm text-[var(--accent-dark)]">Platform Manager</p>
+      <p class="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
+        This website is managed by Kamlesh Mohabe, the driving force behind BooksPDF's operations and
+        strategic initiatives — overseeing daily platform operations, content curation and quality, and
+        partnerships, with a focus on making education accessible to everyone.
+      </p>
+      <p class="mt-4 text-sm text-[var(--ink-soft)]">
+        Get in touch: <a href="mailto:contact@booksnpdf.com" class="text-[var(--accent)] underline">contact@booksnpdf.com</a>
+      </p>
+    </div>
+  </div>
+</StaticPage>

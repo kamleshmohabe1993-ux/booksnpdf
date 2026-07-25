@@ -1,0 +1,22 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16 sm:px-6">
+    <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-8 shadow-ticket">
+      <slot />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getDictionary, resolveLang, t } from '../i18n';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+
+// Astro (SSR/server output) renders this file automatically when an
+// unhandled error occurs, and passes the error in Astro.props.error.
+const { error } = Astro.props as { error?: Error };
+if (import.meta.env.DEV && error) {
+  console.error('[500]', error);
+}
+---
+
+<BaseLayout title="Something went wrong" description="Books PDF hit an unexpected error." noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
+    <div class="ticket-perforation flex flex-col items-center rounded-ticket border border-[var(--border)] bg-[var(--card)] px-10 py-12 shadow-ticket">
+      <span class="font-ticket text-6xl font-bold text-stamp-red">500</span>
+      <h1 class="mt-4 font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'errors.500title')}</h1>
+      <p class="mt-2 max-w-sm text-sm text-[var(--ink-soft)]">{t(dict, 'errors.500body')}</p>
+
+      <div class="mt-6 flex gap-3">
+        <a href="javascript:history.back()" class="rounded-full border border-[var(--border)] px-6 py-2.5 text-sm font-medium hover:bg-[var(--bg-soft)]">
+          {t(dict, 'errors.500retry')}
+        </a>
+        <a href="/" class="rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+          {t(dict, 'errors.500home')}
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

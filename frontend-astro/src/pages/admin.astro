@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AdminApp from '../components/admin/AdminApp.jsx';
+---
+
+<BaseLayout title="Admin — Books PDF" description="Manage books, courses, users, and transactions." noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <AdminApp client:load />
+  </main>
+  <Footer />
+</BaseLayout>

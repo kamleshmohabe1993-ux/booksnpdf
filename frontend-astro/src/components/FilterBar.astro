@@ -1,0 +1,90 @@
+---
+export interface Props {
+  basePath: '/books' | '/courses';
+  otherPath: '/books' | '/courses';
+  categories: string[];
+  current: { category?: string; price?: string; sort?: string; search?: string };
+  dict: any;
+  t: (dict: any, path: string, vars?: Record<string, any>) => string;
+  resultsCount: number;
+}
+
+const { basePath, otherPath, categories, current, dict, t, resultsCount } = Astro.props;
+const typeLabel = basePath === '/courses' ? t(dict, 'filters.typeBooks') : t(dict, 'filters.typeCourses');
+
+function otherHref() {
+  const params = new URLSearchParams();
+  if (current.category) params.set('category', current.category);
+  if (current.price) params.set('price', current.price);
+  if (current.search) params.set('search', current.search);
+  const qs = params.toString();
+  return qs ? `${otherPath}?${qs}` : otherPath;
+}
+---
+
+<form method="get" action={basePath} id="filter-form" class="flex flex-col gap-3 rounded-ticket border border-[var(--border)] bg-[var(--card)] p-4 sm:flex-row sm:flex-wrap sm:items-center">
+  {current.search && <input type="hidden" name="search" value={current.search} />}
+
+  <div class="flex items-center gap-2 text-xs font-ticket uppercase tracking-wide text-[var(--ink-faint)]">
+    {t(dict, 'filters.browsing')}:
+    <span class="rounded-full bg-[var(--accent)]/10 px-2.5 py-1 text-[var(--accent-dark)]">
+      {basePath === '/courses' ? t(dict, 'filters.typeCourses') : t(dict, 'filters.typeBooks')}
+    </span>
+    <a href={otherHref()} class="rounded-full border border-[var(--border)] px-2.5 py-1 text-[var(--ink-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]">
+      + {typeLabel}
+    </a>
+  </div>
+
+  <label class="flex flex-1 min-w-[10rem] flex-col gap-1 text-xs text-[var(--ink-faint)]">
+    {t(dict, 'filters.category')}
+    <select name="category" class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]">
+      <option value="">{t(dict, 'filters.allCategories')}</option>
+      {categories.map((c) => (
+        <option value={c} selected={current.category === c}>{c}</option>
+      ))}
+    </select>
+  </label>
+
+  <label class="flex flex-1 min-w-[8rem] flex-col gap-1 text-xs text-[var(--ink-faint)]">
+    {t(dict, 'filters.price')}
+    <select name="price" class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]">
+      <option value="" selected={!current.price}>{t(dict, 'filters.priceAll')}</option>
+      <option value="free" selected={current.price === 'free'}>{t(dict, 'filters.priceFree')}</option>
+      <option value="paid" selected={current.price === 'paid'}>{t(dict, 'filters.pricePaid')}</option>
+    </select>
+  </label>
+
+  <label class="flex flex-1 min-w-[10rem] flex-col gap-1 text-xs text-[var(--ink-faint)]">
+    {t(dict, 'filters.sort')}
+    <select name="sort" class="rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm text-[var(--ink)]">
+      <option value="newest" selected={!current.sort || current.sort === 'newest'}>{t(dict, 'filters.sortNewest')}</option>
+      <option value="popular" selected={current.sort === 'popular'}>{t(dict, 'filters.sortPopular')}</option>
+      <option value="rating" selected={current.sort === 'rating'}>{t(dict, 'filters.sortRating')}</option>
+      <option value="price-low" selected={current.sort === 'price-low'}>{t(dict, 'filters.sortPriceLow')}</option>
+      <option value="price-high" selected={current.sort === 'price-high'}>{t(dict, 'filters.sortPriceHigh')}</option>
+    </select>
+  </label>
+
+  <div class="flex items-center gap-2 sm:ml-auto">
+    <button type="submit" class="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+      {t(dict, 'filters.apply')}
+    </button>
+    <a href={basePath} class="text-sm text-[var(--ink-faint)] hover:text-[var(--accent)]">{t(dict, 'filters.clear')}</a>
+  </div>
+</form>
+
+<p class="mt-3 font-ticket text-xs uppercase tracking-wide text-[var(--ink-faint)]">
+  {t(dict, 'filters.resultsCount', { count: resultsCount })}
+</p>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('filter-form');
+    if (!form) return;
+    form.querySelectorAll('select').forEach(function (el) {
+      el.addEventListener('change', function () {
+        form.requestSubmit();
+      });
+    });
+  })();
+</script>

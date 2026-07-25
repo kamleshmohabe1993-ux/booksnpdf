@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /my-library
+Disallow: /profile
+Disallow: /payment
+
+Sitemap: https://bookspdf.com/sitemap.xml
+Sitemap: https://bookspdf.com/sitemap-index.xml
+Sitemap: https://bookspdf.com/sitemap-books.xml

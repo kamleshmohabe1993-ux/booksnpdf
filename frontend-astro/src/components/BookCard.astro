@@ -1,0 +1,89 @@
+---
+import { Star, Download, BookOpen, GraduationCap } from 'lucide-react';
+import ShareButton from './ShareButton.jsx';
+import { getThumbnailUrl } from '../lib/api.js';
+
+export interface Props {
+  item: {
+    _id: string;
+    slug?: string;
+    title: string;
+    author?: string;
+    category?: string;
+    price?: number;
+    rating?: number;
+    ratingCount?: number;
+    downloads?: number;
+    thumbnail?: { data?: string; contentType?: string };
+  };
+  kind?: 'book' | 'course';
+  freeLabel?: string;
+  byLabel?: string;
+  /** Use a light-gray surface instead of the default cream card background
+   *  (e.g. to make book covers stand out more on the homepage). */
+  muted?: boolean;
+}
+
+const { item, kind = 'book', freeLabel = 'Free', byLabel, muted = false } = Astro.props;
+const href = `/${kind === 'course' ? 'courses' : 'books'}/${item.slug || item._id}`;
+const isFree = !item.price || Number(item.price) === 0;
+const cardBg = muted ? 'bg-[var(--card-book)]' : 'bg-[var(--card)]';
+const shareUrl = new URL(href, Astro.url.origin).toString();
+const thumbnailUrl = getThumbnailUrl(item, kind);
+---
+
+<a
+  href={href}
+  class={`group relative flex flex-col overflow-hidden rounded-ticket border border-[var(--border)] ${cardBg} shadow-ticket transition-transform hover:-translate-y-0.5`}
+>
+  <div class="flex items-center justify-between gap-2 border-b border-dashed border-[var(--border)] px-4 py-2">
+    <span class="font-ticket text-[10px] uppercase tracking-wider text-[var(--ink-faint)]">
+      {kind === 'course' ? 'Course' : 'Book'} · {item.category || 'General'}
+    </span>
+    <div class="flex items-center gap-1.5">
+      <ShareButton
+        client:visible
+        size="sm"
+        variant="compact"
+        title={item.title}
+        text={`Check out "${item.title}" on Books PDF`}
+        url={shareUrl}
+        imageUrl={thumbnailUrl}
+      />
+      <span class={`font-ticket text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${isFree ? 'bg-stamp-green/10 text-stamp-green' : 'bg-marigold/10 text-marigold-dark'}`}>
+        {isFree ? freeLabel : `₹${item.price}`}
+      </span>
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 px-4 py-4">
+    <div class="flex items-start gap-3">
+      <div class="flex h-14 w-11 shrink-0 items-center justify-center overflow-hidden rounded bg-[var(--bg-soft)] text-[var(--ink-faint)]">
+        {item.thumbnail?.data ? (
+          <img src={item.thumbnail.data} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+        ) : (
+          kind === 'course' ? <GraduationCap size={20} /> : <BookOpen size={20} />
+        )}
+      </div>
+      <div class="min-w-0">
+        <h3 class="font-display text-base font-semibold leading-snug text-[var(--ink)] line-clamp-2 group-hover:text-[var(--accent)]">
+          {item.title}
+        </h3>
+        {item.author && <p class="mt-0.5 truncate text-xs text-[var(--ink-faint)]">{byLabel ? byLabel.replace('{author}', item.author) : item.author}</p>}
+      </div>
+    </div>
+
+    <div class="mt-auto flex items-center justify-between border-t border-[var(--border)] pt-3 text-xs text-[var(--ink-faint)]">
+      <span class="flex items-center gap-1">
+        <Star size={12} className="fill-marigold text-marigold" />
+        {item.rating ?? '—'} <span class="hidden sm:inline">({item.ratingCount ?? 0})</span>
+      </span>
+      <span class="flex items-center gap-1">
+        <Download size={12} />
+        {item.downloads ?? 0}
+      </span>
+    </div>
+  </div>
+
+  <div class="ticket-perforation h-2 w-full text-[var(--card)]"></div>
+</a>

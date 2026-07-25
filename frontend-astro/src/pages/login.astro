@@ -1,0 +1,15 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import LoginForm from '../components/auth/LoginForm.jsx';
+import { getDictionary, resolveLang, t } from '../i18n';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+const next = Astro.url.searchParams.get('next') || '/my-library';
+---
+
+<AuthLayout title="Log In — Books PDF" description="Log in to your Books PDF account to download and manage your library.">
+  <h1 class="font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'auth.loginTitle')}</h1>
+  <p class="mt-1 mb-6 text-sm text-[var(--ink-soft)]">{t(dict, 'auth.loginSubtitle')}</p>
+  <LoginForm client:load dict={dict.auth} next={next} />
+</AuthLayout>

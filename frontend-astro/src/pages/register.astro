@@ -1,0 +1,15 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import RegisterForm from '../components/auth/RegisterForm.jsx';
+import { getDictionary, resolveLang, t } from '../i18n';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+const next = Astro.url.searchParams.get('next') || '/my-library';
+---
+
+<AuthLayout title="Sign Up — Books PDF" description="Create a free Books PDF account to start downloading books and courses instantly.">
+  <h1 class="font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'auth.registerTitle')}</h1>
+  <p class="mt-1 mb-6 text-sm text-[var(--ink-soft)]">{t(dict, 'auth.registerSubtitle')}</p>
+  <RegisterForm client:load dict={dict.auth} next={next} />
+</AuthLayout>

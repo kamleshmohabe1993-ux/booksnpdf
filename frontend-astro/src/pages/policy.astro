@@ -1,0 +1,129 @@
+---
+import StaticPage from '../layouts/StaticPage.astro';
+
+const lastUpdated = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+---
+
+<StaticPage
+  title="Privacy Policy — BooksPDF"
+  description="How BooksPDF collects, uses and protects your personal information."
+  eyebrow="Legal"
+  heading="Privacy Policy"
+  subheading={`Last updated: ${lastUpdated}`}
+>
+  <div class="space-y-8 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">1. Introduction</h2>
+      <p class="mt-2">At Books PDF, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, browse our catalog of NCERT books pdf, foundation books pdf, Hindi books pdf and free pdf books, and use our services more broadly — including creating an account, making a purchase, and downloading a title. This policy applies to every visitor and registered user of Books PDF, whether reading on desktop, tablet, or phone. If you do not agree with this policy, please do not access the site.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">2. Information we collect</h2>
+      <p class="mt-2 font-medium text-[var(--ink)]">Personal information</p>
+      <ul class="mt-1 list-disc space-y-1 pl-5">
+        <li>Full name and contact details</li>
+        <li>Email address and phone number</li>
+        <li>Billing address</li>
+        <li>Payment information (processed securely — we never see or store full card numbers)</li>
+        <li>Account credentials</li>
+      </ul>
+      <p class="mt-3 font-medium text-[var(--ink)]">Usage information</p>
+      <ul class="mt-1 list-disc space-y-1 pl-5">
+        <li>Books browsed and purchased</li>
+        <li>Search queries and preferences</li>
+        <li>Device information and IP address</li>
+        <li>Pages visited and time spent</li>
+      </ul>
+      <p class="mt-3 font-medium text-[var(--ink)]">Technical information</p>
+      <ul class="mt-1 list-disc space-y-1 pl-5">
+        <li>Cookies and tracking technologies</li>
+        <li>Log files and analytics data</li>
+        <li>Device identifiers</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">3. How we use your information</h2>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
+        <li><strong class="text-[var(--ink)]">Service delivery</strong> — processing transactions, delivering purchased eBooks, and customer support</li>
+        <li><strong class="text-[var(--ink)]">Account management</strong> — creating and managing your account, authentication and security</li>
+        <li><strong class="text-[var(--ink)]">Communication</strong> — order confirmations, updates, and (where opted in) promotional offers</li>
+        <li><strong class="text-[var(--ink)]">Personalization</strong> — recommending books based on your preferences</li>
+        <li><strong class="text-[var(--ink)]">Analytics</strong> — analyzing usage to improve platform performance</li>
+        <li><strong class="text-[var(--ink)]">Legal compliance</strong> — meeting legal obligations and protecting our rights</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">4. Information sharing</h2>
+      <p class="mt-2">We do not sell your personal information. We may share it only:</p>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
+        <li>With trusted service providers who help operate our platform (payment processors, hosting, email delivery)</li>
+        <li>When required by law, court order, or government request</li>
+        <li>In connection with a merger, acquisition, or sale of assets</li>
+        <li>With your explicit consent for a specific purpose</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">5. Data security</h2>
+      <p class="mt-2">We use SSL/TLS encryption for data in transit, PCI-DSS-compliant payment processing, access controls and authentication, regular security reviews, and regular backups.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">6. Third-party services we use</h2>
+      <p class="mt-2">To run Books PDF reliably, we rely on a small number of trusted third-party services, each of which processes a narrow slice of data strictly to perform its function: PhonePe handles payment processing so that your card and UPI details never touch our own servers; our email provider delivers OTPs, receipts and download links; and our hosting provider stores the application and database securely. Google's Sign-In service is used only if you choose to log in with your Google account, in which case Google shares your basic profile (name, email, avatar) with us under your control. We do not permit any of these providers to use your data for their own marketing purposes.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">7. Cookies & tracking</h2>
+      <div class="mt-2 space-y-2">
+        <div class="rounded-lg border border-[var(--border)] p-3"><div class="flex items-center justify-between"><p class="font-medium text-[var(--ink)]">Essential cookies</p><span class="rounded-full bg-[var(--bg-soft)] px-2 py-0.5 text-xs">Required</span></div><p class="mt-1 text-xs">Needed for basic site functionality and security</p></div>
+        <div class="rounded-lg border border-[var(--border)] p-3"><div class="flex items-center justify-between"><p class="font-medium text-[var(--ink)]">Performance cookies</p><span class="rounded-full bg-[var(--accent)]/10 px-2 py-0.5 text-xs text-[var(--accent-dark)]">Optional</span></div><p class="mt-1 text-xs">Help us understand how visitors interact with our site</p></div>
+        <div class="rounded-lg border border-[var(--border)] p-3"><div class="flex items-center justify-between"><p class="font-medium text-[var(--ink)]">Functional cookies</p><span class="rounded-full bg-[var(--accent)]/10 px-2 py-0.5 text-xs text-[var(--accent-dark)]">Optional</span></div><p class="mt-1 text-xs">Remember your preferences and personalize content</p></div>
+      </div>
+      <p class="mt-2 text-xs">You can control cookies through your browser settings.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">7. Your privacy rights</h2>
+      <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {[['Access','Request a copy of the personal information we hold about you'],['Correction','Update or correct inaccurate or incomplete information'],['Deletion','Request deletion of your personal information'],['Portability','Receive your data in a structured, commonly used format'],['Objection','Object to processing of your information for certain purposes'],['Withdrawal','Withdraw consent for data processing at any time']].map(([title, body]) => (
+          <div class="rounded-ticket bg-[var(--bg-soft)] p-4">
+            <p class="font-medium text-[var(--ink)]">{title}</p>
+            <p class="mt-1 text-xs">{body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">8. Data retention</h2>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
+        <li>Account information: duration of your account plus 7 years for legal requirements</li>
+        <li>Transaction records: 7 years for accounting and tax purposes</li>
+        <li>Technical logs: 90 days for security and troubleshooting</li>
+        <li>Support tickets: 3 years after resolution</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">9. Children's privacy</h2>
+      <p class="mt-2">Our services are not directed to individuals under 18. Users must be 18 or older to create an account. If we discover we've collected information from a child, we'll delete it — parents can contact us to review or delete their child's information.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">10. Policy updates</h2>
+      <p class="mt-2">We may update this Privacy Policy to reflect changes in our practices or legal requirements. We'll notify you of material changes via email or website notice, and revise the "Last updated" date above.</p>
+    </section>
+
+    <section>
+      <h2 class="font-display text-xl font-semibold text-[var(--ink)]">11. Contact us</h2>
+      <div class="mt-2 rounded-ticket border border-[var(--border)] bg-[var(--bg-soft)] p-5">
+        <p>Email: <a href="mailto:contact@booksnpdf.com" class="text-[var(--accent)] underline">contact@booksnpdf.com</a></p>
+        <p>Address: 123 Book Street, Andheri East, Mumbai, Maharashtra 400069, India</p>
+        <p class="mt-1 text-xs">We aim to respond within 48 hours.</p>
+      </div>
+    </section>
+  </div>
+</StaticPage>

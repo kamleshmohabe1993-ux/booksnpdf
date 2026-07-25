@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BookCard from '../components/BookCard.astro';
+import { getDictionary, resolveLang, t } from '../i18n';
+import { getFeaturedBooks, getFeaturedCourses, getCategories } from '../lib/api.js';
+import { BookOpen, Zap, Shield, Heart, GraduationCap } from 'lucide-react';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+
+const [featuredBooks, featuredCourses, categories] = await Promise.all([
+  getFeaturedBooks(8),
+  getFeaturedCourses(4),
+  getCategories(),
+]);
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Books PDF',
+  url: (Astro.site ?? Astro.url.origin).toString(),
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${(Astro.site ?? Astro.url.origin).toString()}books?search={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+}];
+---
+
+<BaseLayout
+  title="Books PDF — NCERT, Foundation & Hindi Books PDF, Free to Download"
+  description="Books PDF: download NCERT books pdf, foundation books pdf, hindi books pdf and free pdf books instantly. Thousands of pdf books and courses in one place."
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-[var(--border)] bg-[var(--bg-soft)]">
+      <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <span class="font-ticket inline-block rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1 text-xs uppercase tracking-wide text-[var(--ink-faint)]">
+            {t(dict, 'home.eyebrow')}
+          </span>
+          <h1 class="mt-5 font-display text-4xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl lg:text-6xl">
+            {t(dict, 'home.heroTitle')}
+          </h1>
+          <p class="mx-auto mt-5 max-w-xl text-base text-[var(--ink-soft)] sm:text-lg">
+            {t(dict, 'home.heroSubtitle')}
+          </p>
+
+          <form action="/books" method="get" class="mx-auto mt-8 flex max-w-xl flex-col gap-2 sm:flex-row">
+            <input
+              type="search"
+              name="search"
+              placeholder={t(dict, 'home.heroSearchPlaceholder')}
+              class="w-full rounded-full border border-[var(--border)] bg-[var(--card)] px-5 py-3 text-sm text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:border-[var(--accent)]"
+            />
+            <button type="submit" class="shrink-0 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+              {t(dict, 'home.heroCtaPrimary')}
+            </button>
+          </form>
+          <div class="mt-4 flex justify-center">
+            <a href="/courses" class="text-sm font-medium text-[var(--ink-soft)] underline decoration-[var(--accent)] decoration-2 underline-offset-4 hover:text-[var(--accent)]">
+              {t(dict, 'home.heroCtaSecondary')} →
+            </a>
+          </div>
+          <p class="mt-6 font-ticket text-xs uppercase tracking-wide text-[var(--ink-faint)]">{t(dict, 'home.trustLine')}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <h2 class="font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'home.categoriesTitle')}</h2>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {categories.map((c) => (
+          <a
+            href={`/books?category=${encodeURIComponent(c)}`}
+            class="rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm font-medium text-[var(--ink-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            {c}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Featured books -->
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <span class="font-ticket text-xs uppercase tracking-wide text-[var(--accent-dark)]">{t(dict, 'home.featuredEyebrow')}</span>
+          <h2 class="mt-1 font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'home.featuredTitle')}</h2>
+          <p class="mt-1 max-w-lg text-sm text-[var(--ink-soft)]">{t(dict, 'home.featuredSubtitle')}</p>
+        </div>
+        <a href="/books" class="text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-dark)]">{t(dict, 'home.viewAllBooks')} →</a>
+      </div>
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {featuredBooks.map((book) => <BookCard item={book} kind="book" freeLabel={t(dict, 'book.free')} byLabel={t(dict, 'book.by')} muted />)}
+      </div>
+    </section>
+
+    <!-- Courses section (new) -->
+    <section class="border-y border-[var(--border)] bg-[var(--bg-soft)]">
+      <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <span class="font-ticket text-xs uppercase tracking-wide text-stamp-green">{t(dict, 'home.coursesEyebrow')}</span>
+            <h2 class="mt-1 font-display text-2xl font-semibold text-[var(--ink)]">{t(dict, 'home.coursesTitle')}</h2>
+            <p class="mt-1 max-w-lg text-sm text-[var(--ink-soft)]">{t(dict, 'home.coursesSubtitle')}</p>
+          </div>
+          <a href="/courses" class="text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-dark)]">{t(dict, 'home.viewAllCourses')} →</a>
+        </div>
+        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredCourses.map((course) => <BookCard item={course} kind="course" freeLabel={t(dict, 'course.free')} byLabel={t(dict, 'book.by')} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Why us -->
+    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <h2 class="text-center font-display text-2xl font-semibold text-[var(--ink)] sm:text-3xl">{t(dict, 'home.whyTitle')}</h2>
+      <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { Icon: Zap, title: t(dict, 'home.why1Title'), body: t(dict, 'home.why1Body') },
+          { Icon: BookOpen, title: t(dict, 'home.why2Title'), body: t(dict, 'home.why2Body') },
+          { Icon: Heart, title: t(dict, 'home.why3Title'), body: t(dict, 'home.why3Body') },
+          { Icon: Shield, title: t(dict, 'home.why4Title'), body: t(dict, 'home.why4Body') },
+        ].map(({ Icon, title, body }) => (
+          <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+            <Icon size={22} className="text-[var(--accent)]" />
+            <h3 class="mt-3 font-display text-lg font-semibold text-[var(--ink)]">{title}</h3>
+            <p class="mt-1.5 text-sm text-[var(--ink-soft)]">{body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="border-y border-[var(--border)] bg-[var(--ink)] text-[var(--bg)]">
+      <div class="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
+        {[
+          ['10,000+', t(dict, 'home.statsBooks')],
+          ['50,000+', t(dict, 'home.statsReaders')],
+          ['100+', t(dict, 'home.statsCategories')],
+          ['250+', t(dict, 'home.statsCourses')],
+        ].map(([number, label]) => (
+          <div class="text-center">
+            <p class="font-ticket text-3xl font-bold text-marigold">{number}</p>
+            <p class="mt-1 text-xs uppercase tracking-wide opacity-80">{label}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
+      <h2 class="font-display text-2xl font-semibold text-[var(--ink)] sm:text-3xl">{t(dict, 'home.ctaTitle')}</h2>
+      <p class="mx-auto mt-2 max-w-lg text-sm text-[var(--ink-soft)]">{t(dict, 'home.ctaBody')}</p>
+      <a href="/register" class="mt-6 inline-flex rounded-full bg-[var(--accent)] px-7 py-3 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+        {t(dict, 'home.ctaButton')}
+      </a>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+import { getDictionary, resolveLang } from '../i18n';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  ogImage = '/og-default.jpg',
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+const canonicalUrl = new URL(canonicalPath, Astro.site ?? Astro.url.origin).toString();
+const siteName = 'Books PDF';
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Books PDF',
+  url: (Astro.site ?? Astro.url.origin).toString(),
+  description: 'Books PDF is an online platform for pdf books, ncert books pdf, foundation books pdf, hindi books pdf and free pdf books.',
+};
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png?v=2" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg?v=2" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=2" />
+    <meta name="apple-mobile-web-app-title" content="booksnpdf" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Fonts: preconnect + <link rel="stylesheet"> instead of a CSS @import,
+         so the browser can start fetching these in parallel with the main
+         stylesheet rather than discovering them only after it's parsed
+         (a serial chain that used to delay FCP/LCP). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta name="keywords" content="Books PDF, pdf books, ncert books pdf, books pdf in hindi, all books pdf, foundation books pdf, books pdf free, free pdf books, hindi books pdf" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site ?? Astro.url.origin).toString()} />
+    <meta property="og:locale" content={lang === 'hi' ? 'hi_IN' : 'en_IN'} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site ?? Astro.url.origin).toString()} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
+    {jsonLd.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} />)}
+
+    <!-- Apply saved theme before paint to avoid a flash of the wrong theme -->
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('pdf_theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = saved ? saved === 'dark' : prefersDark;
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-[var(--bg)] text-[var(--ink)] font-body antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:m-3 focus:rounded-full focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-white">
+      Skip to content
+    </a>
+    <slot />
+
+    <!-- Google tag (gtag.js) — moved to the end of <body> so analytics never
+         competes with critical CSS/fonts/HTML for bandwidth or parser
+         attention during the initial render. It's already `async`, so this
+         is a belt-and-suspenders change, not a correctness fix. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y1WLGPYREL"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y1WLGPYREL');
+    </script>
+  </body>
+</html>

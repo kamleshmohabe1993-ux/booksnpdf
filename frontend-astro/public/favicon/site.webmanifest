@@ -1,0 +1,25 @@
+{
+  "name": "BooksnPDF",
+  "short_name": "BooksnPDF",
+  "icons": [
+    {
+      "src": "/favicon/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#E8871E",
+  "background_color": "#F5F0E4",
+  "display": "standalone",
+  "start_url": "/"
+}

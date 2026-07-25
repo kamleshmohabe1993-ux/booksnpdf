@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const faqGroups = [
+  {
+    category: 'General',
+    items: [
+      { q: 'What is BooksPDF?', a: 'BooksPDF is an online platform where you can browse, purchase, and download premium eBooks across various categories including NCERT, foundation, Hindi books, and more. We offer both free and paid books with instant download access.' },
+      { q: 'How do I create an account?', a: 'Click "Sign Up", fill in your name, email, mobile number and password, and create your account. You\'ll receive a confirmation email to verify your account.' },
+      { q: 'Is registration mandatory?', a: 'Yes — registration is free and takes less than a minute. It lets you access your library, track purchases, and receive updates on new books.' },
+      { q: 'Are there any free books available?', a: 'Yes! Hundreds of free eBooks are available across categories, marked with a "Free" badge. They can be downloaded instantly after logging in.' },
+    ],
+  },
+  {
+    category: 'Purchases & payments',
+    items: [
+      { q: 'What payment methods do you accept?', a: 'We accept all major payment methods through PhonePe, including UPI, credit cards, debit cards, net banking, and the PhonePe wallet — all processed securely with SSL encryption.' },
+      { q: 'Is my payment information secure?', a: "Yes. We use PhonePe's secure payment gateway and never store your card details on our servers. All transactions are encrypted." },
+      { q: 'Why was my payment declined?', a: 'Payments can be declined due to insufficient funds, incorrect card details, bank restrictions, or security checks. Verify your details and try again, or try an alternate payment method.' },
+      { q: 'Will I receive a receipt?', a: 'Yes — you\'ll receive an email receipt immediately after successful payment, and can also access it from "My Library" at any time.' },
+    ],
+  },
+  {
+    category: 'Downloads & access',
+    items: [
+      { q: 'How do I download a book?', a: 'After successful payment, you\'ll see a download option on the payment success page, and can also access it anytime from "My Library". Free books can be downloaded directly after login.' },
+      { q: 'How many times can I download a book?', a: 'You can download each purchased book up to 5 times within 30 days of purchase — useful for multiple devices or re-downloading if needed.' },
+      { q: 'What format are the books in?', a: 'All books are in PDF format, which opens on any device with a PDF reader.' },
+      { q: 'Can I download books on mobile?', a: 'Yes — the site is fully mobile-responsive, so you can browse, purchase and download on any device.' },
+    ],
+  },
+  {
+    category: 'Refunds & cancellations',
+    items: [
+      { q: 'Can I get a refund?', a: "Due to the digital nature of our products, refunds aren't provided once a book is downloaded — but we do offer refunds if the file is corrupted, you were charged multiple times, or you haven't downloaded within 48 hours. See our Refund Policy for full details." },
+      { q: 'How do I request a refund?', a: 'Contact support within 7 days of purchase with your transaction ID and reason for the refund. We review and process eligible refunds within 7–14 business days.' },
+      { q: 'How long does a refund take?', a: 'Once approved, refunds are processed within 7–14 business days to your original payment method; bank processing may add 3–5 days.' },
+    ],
+  },
+  {
+    category: 'Technical issues',
+    items: [
+      { q: "The PDF won't open. What should I do?", a: 'Make sure you have a PDF reader installed (Adobe Acrobat, or your browser\'s built-in viewer). If the file is corrupted, contact support with your transaction ID for a replacement link.' },
+      { q: 'I forgot my password. How do I reset it?', a: 'Click "Forgot password" on the login page, enter your registered email, and follow the reset instructions sent to you.' },
+      { q: "Why can't I see my purchased books?", a: 'Make sure you\'re logged into the correct account and check "My Library". If books are still missing, contact support with your transaction details.' },
+    ],
+  },
+  {
+    category: 'Account & privacy',
+    items: [
+      { q: 'Can I delete my account?', a: "Yes — contact our support team to request account deletion. You'll lose access to purchased content, and this action cannot be undone." },
+      { q: 'How is my personal information protected?', a: 'We use industry-standard security including SSL encryption, secure servers, and strict access controls. See our Privacy Policy for full details.' },
+      { q: 'Can I share my account with others?', a: 'No — accounts are for individual use only. Sharing accounts or purchased eBooks violates our Terms & Conditions and may result in suspension.' },
+    ],
+  },
+  {
+    category: 'Books & content',
+    items: [
+      { q: 'How often do you add new books?', a: 'New books are added weekly across categories.' },
+      { q: 'Can I request a specific book?', a: "Yes! Send suggestions through our contact page — while we can't guarantee availability, we consider every request." },
+      { q: 'Are the books in English only?', a: "Most books are currently in English — we're actively adding Hindi and other Indian-language titles." },
+    ],
+  },
+];
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqGroups.flatMap((g) => g.items).map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}];
+---
+
+<BaseLayout
+  title="FAQs — BooksPDF"
+  description="Frequently asked questions about buying, downloading and getting support on BooksPDF."
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+    <h1 class="font-display text-3xl font-semibold text-[var(--ink)]">Frequently asked questions</h1>
+    <p class="mt-2 text-sm text-[var(--ink-soft)]">Everything about buying, downloading and getting help.</p>
+    <p class="mt-4 text-sm leading-relaxed text-[var(--ink-soft)]">
+      New to Books PDF or just want to double-check how something works? This page collects the questions
+      our readers ask most — from creating an account and paying for a title, to downloading NCERT books
+      pdf, foundation books pdf, and free pdf books, to requesting a refund if something goes wrong. If you
+      can't find your answer below, our <a href="/contact" class="text-[var(--accent)] underline">contact page</a>
+      connects you directly to the support team.
+    </p>
+
+    <div class="mt-8 space-y-8">
+      {faqGroups.map((group) => (
+        <section>
+          <h2 class="font-ticket text-xs uppercase tracking-wide text-[var(--accent-dark)]">{group.category}</h2>
+          <div class="mt-3 divide-y divide-[var(--border)] overflow-hidden rounded-ticket border border-[var(--border)] bg-[var(--card)]">
+            {group.items.map((item) => (
+              <details class="group p-4">
+                <summary class="cursor-pointer list-none font-medium text-[var(--ink)] marker:content-none">
+                  <span class="flex items-center justify-between gap-3">
+                    {item.q}
+                    <span class="shrink-0 text-[var(--ink-faint)] transition-transform group-open:rotate-45">+</span>
+                  </span>
+                </summary>
+                <p class="mt-2 text-sm text-[var(--ink-soft)]">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <div class="mt-12 rounded-ticket bg-[var(--ink)] p-8 text-center text-[var(--bg)]">
+      <h3 class="font-display text-xl font-semibold">Still have questions?</h3>
+      <p class="mt-1 text-sm opacity-80">Our support team is here to help.</p>
+      <a href="/contact" class="mt-4 inline-flex rounded-full bg-[var(--accent)] px-6 py-2.5 text-sm font-medium text-white hover:bg-[var(--accent-dark)]">
+        Contact support
+      </a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

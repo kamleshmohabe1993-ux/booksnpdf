@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CheckoutConfirm from '../components/purchase/CheckoutConfirm.jsx';
+
+const itemType = Astro.url.searchParams.get('type') === 'course' ? 'course' : 'book';
+const itemId = Astro.url.searchParams.get('id') || '';
+---
+
+<BaseLayout title="Checkout — Books PDF" description="Confirm your purchase before paying." noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:py-16">
+    <CheckoutConfirm client:load itemId={itemId} itemType={itemType} />
+  </main>
+  <Footer />
+</BaseLayout>

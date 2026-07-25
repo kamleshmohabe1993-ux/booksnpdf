@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PaymentResult from '../../components/purchase/PaymentResult.jsx';
+
+const orderId = Astro.url.searchParams.get('orderId');
+---
+
+<BaseLayout title="Payment error — Books PDF" description="We couldn't confirm your payment." noindex={true}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-lg px-4 py-16 sm:px-6">
+    <PaymentResult client:load mode="error" orderId={orderId} />
+  </main>
+  <Footer />
+</BaseLayout>

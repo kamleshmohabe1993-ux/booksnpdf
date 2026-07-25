@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BookCard from '../../components/BookCard.astro';
+import ShareButton from '../../components/ShareButton.jsx';
+import PurchaseButton from '../../components/purchase/PurchaseButton.jsx';
+import { getDictionary, resolveLang, t } from '../../i18n';
+import { getCourseBySlug, getCourses, getThumbnailUrl } from '../../lib/api.js';
+import { Star, Download } from 'lucide-react';
+
+const lang = resolveLang(Astro.url, Astro.cookies);
+const dict = getDictionary(lang);
+
+const { id } = Astro.params;
+const course = await getCourseBySlug(id);
+
+if (!course) {
+  return Astro.redirect('/404');
+}
+
+const { courses: related } = await getCourses({ category: course.category, sort: 'popular' });
+const relatedCourses = related.filter((c) => c._id !== course._id).slice(0, 4);
+const shareUrl = new URL(`/courses/${course.slug || course._id}`, Astro.url.origin).toString();
+const thumbnailUrl = getThumbnailUrl(course, 'course');
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: course.title,
+  description: course.description,
+  provider: { '@type': 'Organization', name: 'Books PDF' },
+  offers: {
+    '@type': 'Offer',
+    price: course.price || 0,
+    priceCurrency: 'INR',
+  },
+}];
+---
+
+<BaseLayout
+  title={`${course.title} — Course PDF | Books PDF`}
+  description={(course.description || `Enroll in ${course.title} on Books PDF.`).slice(0, 155)}
+  ogImage={thumbnailUrl || undefined}
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <nav class="text-xs text-[var(--ink-faint)]">
+      <a href="/" class="hover:text-[var(--accent)]">{t(dict, 'nav.home')}</a> /
+      <a href="/courses" class="hover:text-[var(--accent)]"> {t(dict, 'nav.courses')}</a> /
+      <span> {course.title}</span>
+    </nav>
+
+    <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+      <div class="rounded-ticket border border-[var(--border)] bg-[var(--card)] p-6">
+        <div class="flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-lg bg-[var(--bg-soft)] font-display text-4xl text-[var(--ink-faint)]">
+          {course.thumbnail?.data ? (
+            <img src={course.thumbnail.data} alt={course.title} class="h-full w-full object-cover" />
+          ) : (
+            course.title.charAt(0)
+          )}
+        </div>
+        <p class="mt-4 font-ticket text-xs uppercase tracking-wide text-stamp-green">{t(dict, 'course.badge')} · {course.category}</p>
+      </div>
+
+      <div>
+        <h1 class="font-display text-3xl font-semibold text-[var(--ink)]">{course.title}</h1>
+        <p class="mt-1 text-sm text-[var(--ink-soft)]">{t(dict, 'book.by', { author: course.author || 'Books PDF' })}</p>
+
+        <div class="mt-3 flex items-center gap-4 text-sm text-[var(--ink-faint)]">
+          <span class="flex items-center gap-1"><Star size={14} className="fill-marigold text-marigold" /> {t(dict, 'book.rating', { rating: course.rating ?? '—', count: course.ratingCount ?? 0 })}</span>
+          <span class="flex items-center gap-1"><Download size={14} /> {t(dict, 'book.downloads', { count: course.downloads ?? 0 })}</span>
+        </div>
+
+        <p class="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--ink-soft)]">{course.description}</p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <span class="font-display text-2xl font-semibold text-[var(--ink)]">
+            {!course.price ? t(dict, 'course.free') : `₹${course.price}`}
+          </span>
+          <PurchaseButton
+            client:load
+            itemId={course._id}
+            itemType="course"
+            isPaid={!!course.price}
+            price={course.price}
+            labels={{ buyNow: t(dict, 'course.enroll'), download: t(dict, 'course.enroll') }}
+          />
+          <ShareButton
+            client:visible
+            size="lg"
+            title={course.title}
+            text={`Check out "${course.title}" on Books PDF`}
+            url={shareUrl}
+            imageUrl={thumbnailUrl}
+          />
+        </div>
+      </div>
+    </div>
+
+    {relatedCourses.length > 0 && (
+      <section class="mt-16">
+        <h2 class="font-display text-xl font-semibold text-[var(--ink)]">{t(dict, 'course.relatedTitle')}</h2>
+        <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedCourses.map((c) => <BookCard item={c} kind="course" freeLabel={t(dict, 'course.free')} byLabel={t(dict, 'book.by')} />)}
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
